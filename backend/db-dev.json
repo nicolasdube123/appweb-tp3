@@ -5,12 +5,6 @@
       "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
       "name": "Emmett Brown",
       "id": 1
-    },
-    {
-      "email": "mon@courriel.com",
-      "password": "$2a$10$sQ1zMa4PnFTP5w/G7TcyKOiKHNfNTewJL8MMHwvR0B50mwLPq75Bu",
-      "name": "Bruce Lee",
-      "id": 2
     }
   ],
   "comments": [
@@ -18,6 +12,28 @@
       "userId": 1,
       "comment": "J'ai inventé la machine à voyager dans le temps.",
       "id": 1
+    }
+  ],
+  "teachers": [
+    {
+      "email": "jimmy@test.com",
+      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
+      "name": "Jimmy Gilbert",
+      "id": 1
+    }
+  ],
+  "student": [
+    {
+      "email": "raphael@test.com",
+      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
+      "name": "Raphaël Boudreault",
+      "id": 1
+    },
+    {
+      "email": "nicholas@test.com",
+      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
+      "name": "Jimmy Gilbert",
+      "id": 2
     }
   ]
 }
