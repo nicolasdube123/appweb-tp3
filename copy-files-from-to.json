@@ -1,0 +1,11 @@
+{
+  "copyFiles": [
+    {
+      "from": "backend/db.default.json",
+      "to": "backend/db.json"
+    }
+  ],
+  "copyFilesSettings": {
+    "whenFileExists": "overwrite"
+  }
+}

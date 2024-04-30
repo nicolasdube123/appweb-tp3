@@ -1,0 +1,11 @@
+{
+  "copyFiles": [
+    {
+      "from": "db-dev-default.json",
+      "to": "db-dev.json"
+    }
+  ],
+  "copyFilesSettings": {
+    "whenFileExists": "overwrite"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "copyFiles": [
+    {
+      "from": "db-cypress-default.json",
+      "to": "db-cypress.json"
+    }
+  ],
+  "copyFilesSettings": {
+    "whenFileExists": "overwrite"
+  }
+}

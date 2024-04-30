@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "email": "test@test.com",
+      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
+      "name": "Emmett Brown",
+      "id": 1
+    }
+  ],
+  "comments": [
+    {
+      "userId": 1,
+      "comment": "J'ai inventé la machine à voyager dans le temps.",
+      "id": 1
+    }
+  ]
+}

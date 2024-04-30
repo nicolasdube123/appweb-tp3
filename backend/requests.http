@@ -1,0 +1,68 @@
+# La gestion des jetons et des droits d'accès sont gérés par https://github.com/jeremyben/json-server-auth
+# Pour en savoir davantage, voir fichier /server/routes.json et explications: https://github.com/jeremyben/json-server-auth#guarded-routes-
+
+# Par défaut, un utilisateur a été créé (voir le fichier /backend/db-dev-default.json).
+# courriel : test@test.com
+# mot de passe : "test"
+# id : 1
+
+### Récupérer un jeton d'un utilisateur existant en s'authentifiant
+POST http://127.0.0.1:3000/login
+content-type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "test"
+}
+
+### Créer un nouvel utilisateur. Après la création, un jeton est retourné.
+# email et password sont des propriétés obligatoires.
+POST http://127.0.0.1:3000/register
+content-type: application/json
+
+{
+  "email": "new@test.com",
+  "password": "test",
+  "name": "Adélard Rochon"
+}
+
+
+### Accéder à des ressources protégées d'un utilisateur en utilisant le jeton.
+GET http://127.0.0.1:3000/users/1
+Authorization: Bearer REMPLACER_PAR_JETON_NON_EXPIRÉ_UTILISATEUR_1
+
+
+### Ajouter une ressource privée à un utilisateur
+POST http://127.0.0.1:3000/comments
+Authorization: Bearer REMPLACER_PAR_JETON_NON_EXPIRÉ_UTILISATEUR_1
+Content-type: application/json
+
+{
+  "userId": 1,
+  "comment": "Un commentaire de l'utilisateur 1"
+}
+
+### Se déconnecter 
+// Le jeton est valide pendant 1 heure. Pour se déconnecter, supprimer le jeton coté client.
+
+##########################################
+### Quelques exemples d'erreurs
+##########################################
+
+### Jeton expiré (401)
+GET http://127.0.0.1:3000/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpYXQiOjE2MTczOTc1OTAsImV4cCI6MTYxNzQwMTE5MCwic3ViIjoiMSJ9.UXCUOlHNDXhLHZ2WKl62Zw36kYlGNZ6QECBJHLNzlc8
+
+### Email et mot de passe inexistant (400)
+POST http://127.0.0.1:3000/login
+content-type: application/json
+
+{
+  "email": "",
+  "password": ""
+}
+
+### Tentative d'accès à une ressource de l'utilisateur 1 par l'utilisateur 2
+GET http://127.0.0.1:3000/users/2
+Authorization: Bearer REMPLACER_PAR_JETON_NON_EXPIRÉ_UTILISATEUR_1
+

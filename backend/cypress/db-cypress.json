@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "email": "mon@courriel.com",
+      "password": "$2a$10$WoVaR5cZ2CaImTsXvAglpOUcODx5MODtZR7KSnxcLTL2kg3HVOQIa",
+      "name": "Bruce Lee",
+      "id": 1
+    }
+  ],
+  "comments": []
+}
