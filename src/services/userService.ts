@@ -5,7 +5,10 @@ import User from "../interfaces/IUser"
 const USER_PATH: string = "/users"
 const API_URL: string = "http://127.0.0.1:3000" + USER_PATH
 
-async function getUserById (userId: string): Promise<User> {
+//En incluant les id déjà présent dans la bd, ceci est le premier index disponible
+let id: number = 4
+
+async function getUserById (userId: number): Promise<User> {
   try {
     // axiosAuth est une instance d'axios configurée pour ajouter le JWT à une requête nécessitant une authentification.
     // voir le fichier src/shared/axiosAuth.js
@@ -18,6 +21,40 @@ async function getUserById (userId: string): Promise<User> {
   } catch (error) {
     throw parseAxiosError(error)
   }
+}
+
+async function createStudent (email: string, password: string, name: string) {
+  let student: User = {
+    email: email,
+    password: password,
+    name: name,
+    id: id,
+    role: "student"
+  }
+  
+  try {
+    await axiosAuth.post(API_URL, {
+      student
+    })
+  } catch (error) {
+    throw parseAxiosError(error)
+  }
+
+  id++
+}
+
+async function updatePassword (userId: number, newPassword: string) {
+  try {
+    let user: User = await getUserById(userId)
+    user.password = newPassword
+    
+    await axiosAuth.put(API_URL + "/" + userId, {
+      user
+    })
+  } catch (error) {
+    throw parseAxiosError(error)
+  }
+
 }
 
 export const userService = {
