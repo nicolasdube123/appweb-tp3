@@ -4,7 +4,29 @@
       "email": "test@test.com",
       "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
       "name": "Emmett Brown",
-      "id": 1
+      "id": 0,
+      "role": "teacher"
+    },
+    {
+      "email": "jimmy@yahoo.com",
+      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
+      "name": "Jimmy Gilbert",
+      "id": 1,
+      "role": "teacher"
+    },
+    {
+      "email": "raphael@test.com",
+      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
+      "name": "Raphaël Boudreault",
+      "id": 2,
+      "role": "student"
+    },
+    {
+      "email": "nicholas@test.com",
+      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
+      "name": "Jimmy Gilbert",
+      "id": 3,
+      "role": "student"
     }
   ],
   "comments": [
@@ -12,28 +34,6 @@
       "userId": 1,
       "comment": "J'ai inventé la machine à voyager dans le temps.",
       "id": 1
-    }
-  ],
-  "teachers": [
-    {
-      "email": "jimmy@test.com",
-      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
-      "name": "Jimmy Gilbert",
-      "id": 1
-    }
-  ],
-  "student": [
-    {
-      "email": "raphael@test.com",
-      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
-      "name": "Raphaël Boudreault",
-      "id": 1
-    },
-    {
-      "email": "nicholas@test.com",
-      "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
-      "name": "Jimmy Gilbert",
-      "id": 2
     }
   ]
 }
