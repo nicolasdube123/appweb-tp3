@@ -3,6 +3,7 @@
 
     const raisedHand = ref<Boolean>(true)
     const superHand = ref<Boolean>(false)
+    const locked = ref<Boolean>(false)
     const selectedOption = ''
     const priorities = [
         { value: 1, label: 'P1' },
@@ -17,6 +18,8 @@
         { value: 'A', label: 'Autre' }
     ]
 
+    //TODO: Pour la main levée (super ou non), afficher la valeur de la dernière main levée et non l'état de l'étoile
+
 </script>
 <div class="w-25 d-flex">
 </div>
@@ -30,7 +33,7 @@
         </div>
         <div class="w-75 d-flex bg-dark rounded p-3">
             <div class="w-25">
-                <button v-if="!raisedHand" @click="superHand = !superHand" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center">
+                <button @click="superHand = !superHand" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center">
                     <img v-if="!superHand" src="../assets/star-empty.png" alt="Super-main" class="img-fluid">
                     <img v-if="superHand" src="../assets/star-full.png" alt="Super-main" class="img-fluid">
                 </button>
@@ -38,13 +41,18 @@
                     <img src="../assets/down-arrow.png" alt="Baisser la main" class="img-fluid bg-primary">
                 </button>
             </div>
-            <div class="w-75 d-flex flex-column m-2">
-                <div class="d-flex h-75">
-                    <div class="w-75 p-1 form-floating">
+            <div class="w-75 m-2 d-flex">
+                <div class="d-flex flex-column w-75">
+                    <div class="h-75 p-1 form-floating">
                         <textarea class="form-control h-100" placeholder="Leave a comment here" id="question-field"></textarea>
                         <label for="question-field">Votre question:</label>
                     </div>
-                    <div class="d-flex flex-column w-25">
+                    <button @click="raisedHand = true" class="h-25 btn btn-primary m-2">
+                        Lever la main
+                    </button>
+                </div>
+                <div class="d-flex flex-column col">
+                    <div class="h-75 d-flex flex-column">
                         <div class="p-2 h-50">
                             <h4 class="text-center text-white">Priorité</h4>
                             <select class="form-select" v-model="selectedOption">
@@ -52,7 +60,7 @@
                                 <option v-for="option in priorities" :key="option.value" :value="option.value">{{ option.label }}</option>
                             </select>
                         </div>
-                        <div class=" p-2 h-50">
+                        <div class="p-2 h-50">
                             <h4 class="text-center text-white">Catégorie</h4>
                             <select class="form-select" v-model="selectedOption">
                                 <option value="" disabled>...</option>
@@ -60,10 +68,15 @@
                             </select>
                         </div>
                     </div>
+                    <div class="p-2 h-25 h-auto">
+                        <button v-if="locked" class="btn btn-danger d-flex flex-column" @click="locked = !locked">
+                            <img src="../assets/locked.png" alt="Privé" class="img-fluid m-4 my-3">
+                        </button>
+                        <button v-if="!locked" class="btn btn-success d-flex flex-column" @click="locked = !locked">
+                            <img src="../assets/unlocked.png" alt="Public" class="img-fluid m-2">
+                        </button>
+                    </div>
                 </div>
-                <button @click="raisedHand = true" class="h-25 p-2 btn btn-primary m-2">
-                    Lever la main
-                </button>
             </div>
         </div>
     </div>
