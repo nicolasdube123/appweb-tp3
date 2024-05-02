@@ -1,10 +1,23 @@
 <script setup lang="ts">
     import { ref } from 'vue';
 
+    //À déplacer dans les components
+
+    export interface Question {
+        studentId: String;
+        content: String;
+        super: Boolean;
+        priority: String;
+        category: String;
+        private: Boolean;
+        open: Boolean //à retirer plus tard
+    }
+
     const raisedHand = ref<Boolean>(true)
     const superHand = ref<Boolean>(false)
     const locked = ref<Boolean>(false)
     const selectedOption = ''
+    //À déplacer
     const priorities = [
         { value: 1, label: 'P1' },
         { value: 2, label: 'P2' },
@@ -25,12 +38,15 @@
 </div>
 <template>
     <div class="d-flex container">
+        <!--HandComponent-->
         <div class="w-25 d-flex">
             <div class="w-75 d-flex align-items-center justify-content-center">
                 <img v-if="raisedHand && !superHand" src="../assets/hand.png" alt="Main levée" class="img-fluid p-2">
                 <img v-if="raisedHand && superHand" src="../assets/super-hand.png" alt="Super-main levée" class="img-fluid p-2">
             </div>
         </div>
+        <!--Hand/-->
+        <!--FormComponent-->
         <div class="w-75 d-flex bg-dark rounded p-3">
             <div class="w-25">
                 <button @click="superHand = !superHand" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center">
@@ -79,6 +95,7 @@
                 </div>
             </div>
         </div>
+        <!--Form/-->
     </div>
 </template>
 

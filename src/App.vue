@@ -2,6 +2,7 @@
 import { RouterView } from 'vue-router'
 import NavigationBar from './components/NavigationBar.vue'
 import StudentView from './views/StudentView.vue'
+import TeacherView from './views/TeacherView.vue'
 </script>
 
 <template>
@@ -14,7 +15,6 @@ import StudentView from './views/StudentView.vue'
   <main>
     <!-- RouterView (ou router-link) est la balise fournie par Vue Router qui permet d'afficher dynamiquement la "view" correspondante à la route actuelle de l'application. Cette directive ne devrait être présente qu'une seule fois. Lorsque l'utilisateur clique sur un des liens de navigation, Vue Router charge la "view" correspondante et l'affiche automatiquement à l'emplacement de la balise RouterView. -->
     <RouterView />
-    <StudentView />
   </main>
 </template>
 
