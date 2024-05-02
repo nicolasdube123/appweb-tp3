@@ -12,7 +12,8 @@ export const useAuthStore = defineStore('authStoreId', () => {
   const token = ref('')
   const authServiceError = ref('')
 
-  const isLoggedIn = computed(() => !!token.value)
+  const isLoggedInAsStudent = computed(() => !!token.value)
+  const isLoggedInAsTeacher = computed(() => !!token.value)
 
   const getUserId = computed(() => {
     if (!token.value) return ''
@@ -61,7 +62,8 @@ export const useAuthStore = defineStore('authStoreId', () => {
   return { 
     token,
     authServiceError,
-    isLoggedIn,
+    isLoggedInAsStudent: isLoggedInAsStudent,
+    isLoggedInAsTeacher: isLoggedInAsTeacher,
     getUserId,
     isTokenExpired,
     clearError,
