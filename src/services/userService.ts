@@ -8,7 +8,7 @@ const API_URL: string = "http://127.0.0.1:3000" + USER_PATH
 //En incluant les id déjà présent dans la bd, ceci est le premier index disponible
 let id: number = 4
 
-async function getUserById (userId: number): Promise<User> {
+async function getUserById (userId: string): Promise<User> {
   try {
     // axiosAuth est une instance d'axios configurée pour ajouter le JWT à une requête nécessitant une authentification.
     // voir le fichier src/shared/axiosAuth.js
@@ -43,7 +43,7 @@ async function createStudent (email: string, password: string, name: string) {
   id++
 }
 
-async function updatePassword (userId: number, newPassword: string) {
+async function updatePassword (userId: string, newPassword: string) {
   try {
     let user: User = await getUserById(userId)
     user.password = newPassword
@@ -55,6 +55,14 @@ async function updatePassword (userId: number, newPassword: string) {
     throw parseAxiosError(error)
   }
 
+}
+
+async function deleteUser (userId: string) {
+  try {1
+    await axiosAuth.delete(API_URL + "/" + userId)
+  } catch (error) {
+    throw parseAxiosError(error)
+  }
 }
 
 export const userService = {
