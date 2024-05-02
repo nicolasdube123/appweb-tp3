@@ -1,13 +1,7 @@
 import { parseAxiosError } from '../shared/parseAxiosError'
 import axiosAuth from '../shared/axiosAuth'
+import User from "../interfaces/IUser"
 
-interface User {
-  email: string,
-  password: string,
-  name: string,
-  id: number,
-  role: string,
-}
 const USER_PATH: string = "/users"
 const API_URL: string = "http://127.0.0.1:3000" + USER_PATH
 
