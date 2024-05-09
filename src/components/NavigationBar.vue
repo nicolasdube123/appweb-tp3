@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router'
 const authStore = useAuthStore()
 const router = useRouter()
 
-const isLoggedIn = computed(() => authStore.isLoggedInAsStudent)
+const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 function logout() {
   authStore.logout()
@@ -17,6 +17,8 @@ function logout() {
 </script>
 
 <template>
+  <Suspense>
+
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
       <div class="navbar-nav mr-auto">
@@ -28,12 +30,20 @@ function logout() {
         >
           Accueil
         </RouterLink>
+
         <RouterLink
           class="nav-link"
-          :class="{ active: $route.name == 'About' }"
-          :to="{ name: 'About' }"
+          :class="{ active: $route.name == 'Student' }"
+          :to="{ name: 'Student' }"
         >
-          À propos
+          Étudiant
+        </RouterLink>
+        <RouterLink
+          class="nav-link"
+          :class="{ active: $route.name == 'Teacher' }"
+          :to="{ name: 'Teacher' }"
+        >
+          Professeur
         </RouterLink>
 
         <!-- La page Profile n'est accessible que si l'utilisateur est connecté (v-if). Voir la propriété calculée isLoggedIn() qui retourne la valeur de la propriété isLoggedIn du store. -->
@@ -63,4 +73,5 @@ function logout() {
       </div>
     </div>
   </nav>
+  </Suspense>
 </template>
