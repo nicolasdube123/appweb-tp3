@@ -1,18 +1,6 @@
 <script setup lang="ts">
     import { ref } from 'vue';
 
-    //À déplacer dans les components
-
-    export interface Question {
-        studentId: String;
-        content: String;
-        super: Boolean;
-        priority: String;
-        category: String;
-        private: Boolean;
-        open: Boolean //à retirer plus tard
-    }
-
     const raisedHand = ref<Boolean>(true)
     const superHand = ref<Boolean>(false)
     const locked = ref<Boolean>(false)

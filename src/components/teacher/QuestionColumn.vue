@@ -1,62 +1,20 @@
 <script setup lang="ts">
     import { ref } from 'vue'
-    import { Question } from '../../views/StudentView.vue';
+    import { Question } from '../../App.vue';
 
-    //Temporaire
-    const questions = ref<Array<Question>>([
-        {
-            studentId: "1",
-            content: "Question 1 content",
-            super: false,
-            priority: "P1",
-            category: "Matière",
-            private: false,
-            open: false
-        },
-        {
-            studentId: "2",
-            content: "Question 2 content",
-            super: false,
-            priority: "P2",
-            category: "Personnel",
-            private: false,
-            open: false
-        },
-        {
-            studentId: "3",
-            content: "Question 3 content",
-            super: false,
-            priority: "P3",
-            category: "Matière",
-            private: false,
-            open: false
-        },
-        {
-            studentId: "4",
-            content: "Question 4 content",
-            super: false,
-            priority: "P4",
-            category: "Personnel",
-            private: false,
-            open: false
-        },
-        {
-            studentId: "5",
-            content: "Question 5 content",
-            super: false,
-            priority: "P5",
-            category: "Matière",
-            private: false,
-            open: false
+    const props = defineProps({
+        questions: {
+            type: Object as () => Array<Question>,
+            required: true
         }
-    ])
+    })
 
     function toggleQuestion(index: number) {
-        questions.value[index].open = !questions.value[index].open;
+        props.questions[index].open = !props.questions[index].open;
     }
 
     function deleteQuestion(index: number) {
-        questions.value.splice(index, 1)
+        props.questions.splice(index, 1)
     }
 
     function submitNewCategory() {
@@ -80,7 +38,7 @@
                 </form>
             </div>
         </li>
-        <li v-for="(question, index) in questions" :key="index" class="list-group-item">
+        <li v-for="(question, index) in props.questions" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
                 <button class="btn btn-danger btn-sm" @click="deleteQuestion(index)">
                     Del

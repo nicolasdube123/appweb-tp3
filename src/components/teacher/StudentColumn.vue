@@ -1,54 +1,19 @@
 <script setup lang="ts">
-    import { ref } from 'vue'
-    import { Timer } from '../../scripts/timer'
-    
-    export interface Student {
-        id: String;
-        name: String;
-        open: Boolean;
-        timer: Timer;
-    }
+    import { Student } from '@/App.vue';
 
-    //Temporaire
-    const students = ref<Array<Student>>([
-        {
-            id: "1",
-            name: "John Doe",
-            open: false,
-            timer: new Timer()
-        },
-        {
-            id: "2",
-            name: "Alice Smith",
-            open: false,
-            timer: new Timer()
-        },
-        {
-            id: "3",
-            name: "David Johnson",
-            open: false,
-            timer: new Timer()
-        },
-        {
-            id: "4",
-            name: "Emily Brown",
-            open: false,
-            timer: new Timer()
-        },
-        {
-            id: "5",
-            name: "Michael Wilson",
-            open: false,
-            timer: new Timer()
+    const props = defineProps({
+        students : {
+            type: Object as () => Array<Student>,
+            required: true
         }
-    ])
+    })
 
     function toggleStudent(index: number) {
-        students.value[index].open = !students.value[index].open;
+        props.students[index].open = !props.students[index].open;
     }
 
     function deleteStudent(index: number) {
-        students.value.splice(index, 1)
+        props.students.splice(index, 1)
     }
 
     function submitNewStudent() {
@@ -72,7 +37,7 @@
                 </form>
             </div>
         </li>
-        <li v-for="(student, index) in students" :key="index" class="list-group-item">
+        <li v-for="(student, index) in props.students" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
                 <button class="btn btn-danger btn-sm" @click="deleteStudent(index)">
                     Del
