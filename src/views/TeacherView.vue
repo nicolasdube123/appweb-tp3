@@ -1,7 +1,15 @@
 <script setup lang="ts">
     import { Question, Student } from '@/App.vue';
-import QuestionColumn from '../components/teacher/QuestionColumn.vue'
+    import QuestionColumn from '../components/teacher/QuestionColumn.vue'
+    import { useRouter } from 'vue-router'
+    import { isGoodRole, Role } from '@/scripts/verifyRole';
     import StudentColumn from '../components/teacher/StudentColumn.vue'
+
+    const router = useRouter();
+
+    if (!await isGoodRole(Role.TEACHER)) {
+        router.push({ name: 'Profile' })
+    }
 
     const props = defineProps({
         questions: {

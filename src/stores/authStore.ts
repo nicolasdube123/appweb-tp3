@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { authService } from '../services/authService'
-import { userService } from '../services/userService'
+//import { userService } from '../services/userService'
 import jwtDecode from 'jwt-decode'
 
 interface DecodedToken {
@@ -14,8 +14,8 @@ export const useAuthStore = defineStore('authStoreId', () => {
   const authServiceError = ref('')
 
   const isLoggedIn = computed(() => !!token.value)
-  const isLoggedInAsStudent = computed(() => userService.isUserWithGoodRole(getUserId.value, "student"))
-  const isLoggedInAsTeacher = computed(() => userService.isUserWithGoodRole(getUserId.value, "teacher"))
+  //const isLoggedInAsStudent = computed(() => userService.isUserWithGoodRole(getUserId.value, "student"))
+  //const isLoggedInAsTeacher = computed(() => userService.isUserWithGoodRole(getUserId.value, "teacher"))
 
   const getUserId = computed(() => {
     if (!token.value) return ''
@@ -65,8 +65,8 @@ export const useAuthStore = defineStore('authStoreId', () => {
     token,
     authServiceError,
     isLoggedIn,
-    isLoggedInAsStudent,
-    isLoggedInAsTeacher,
+    //isLoggedInAsStudent,
+    //isLoggedInAsTeacher,
     getUserId,
     isTokenExpired,
     clearError,

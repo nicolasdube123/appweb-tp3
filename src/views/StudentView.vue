@@ -1,5 +1,24 @@
 <script setup lang="ts">
     import { ref } from 'vue';
+    import { useRouter } from 'vue-router'
+    import { isGoodRole, Role } from '@/scripts/verifyRole';
+
+    const router = useRouter();
+
+    if (!await isGoodRole(Role.STUDENT)) {
+        router.push({ name: 'Profile' })
+    }
+    
+    //À déplacer dans les components
+    export interface Question {
+        studentId: String;
+        content: String;
+        super: Boolean;
+        priority: String;
+        category: String;
+        private: Boolean;
+        open: Boolean //à retirer plus tard
+    }
 
     const raisedHand = ref<Boolean>(true)
     const superHand = ref<Boolean>(false)
@@ -89,4 +108,4 @@
 
 <style scoped>
 
-</style>
+</style>@/components/verifyRole
