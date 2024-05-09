@@ -10,11 +10,11 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore()
   authStore.loadPersistedToken()
-  if (to.meta.requiresAuth && !authStore.isLoggedInAsStudent) {
+  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return {
       name: 'Login'
     }
-  } else if (to.name === 'Login' && authStore.isLoggedInAsStudent) {
+  } else if (to.name === 'Login' && authStore.isLoggedIn) {
     return {
       name: 'Home'
     }
