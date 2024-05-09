@@ -1,6 +1,14 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { Question } from './StudentView.vue';
+    import { useRouter } from 'vue-router'
+    import { isGoodRole, Role } from '@/scripts/verifyRole';
+
+    const router = useRouter();
+
+    if (!await isGoodRole(Role.TEACHER)) {
+        router.push({ name: 'Profile' })
+    }
 
     const questions = ref<Array<Question>>([
         {
