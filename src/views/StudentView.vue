@@ -1,13 +1,5 @@
 <script setup lang="ts">
     import { ref } from 'vue';
-    import { useRouter } from 'vue-router'
-    import { isGoodRole, Role } from '@/scripts/verifyRole';
-
-    const router = useRouter();
-
-    if (!await isGoodRole(Role.STUDENT)) {
-        router.push({ name: 'Profile' })
-    }
     
     //À déplacer dans les components
     export interface Question {

@@ -2,16 +2,8 @@
 
     import { ref } from 'vue';
     import { Question } from './StudentView.vue';
-    import { useRouter } from 'vue-router'
-    import { isGoodRole, Role } from '@/scripts/verifyRole';
     import QuestionColumn from '../components/teacher/QuestionColumn.vue'
     import StudentColumn from '../components/teacher/StudentColumn.vue'
-
-    const router = useRouter();
-
-    if (!await isGoodRole(Role.TEACHER)) {
-        router.push({ name: 'Profile' })
-    }
 
 
     function sendAmberAlert() {

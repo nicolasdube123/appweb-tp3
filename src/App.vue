@@ -17,7 +17,6 @@ import TeacherView from './views/TeacherView.vue'
     <Suspense>
       <RouterView />
     </Suspense>
-    <TeacherView />
   </main>
 </template>
 

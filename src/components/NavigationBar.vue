@@ -31,21 +31,6 @@ function logout() {
           Accueil
         </RouterLink>
 
-        <RouterLink
-          class="nav-link"
-          :class="{ active: $route.name == 'Student' }"
-          :to="{ name: 'Student' }"
-        >
-          Étudiant
-        </RouterLink>
-        <RouterLink
-          class="nav-link"
-          :class="{ active: $route.name == 'Teacher' }"
-          :to="{ name: 'Teacher' }"
-        >
-          Professeur
-        </RouterLink>
-
         <!-- La page Profile n'est accessible que si l'utilisateur est connecté (v-if). Voir la propriété calculée isLoggedIn() qui retourne la valeur de la propriété isLoggedIn du store. -->
         <RouterLink
           class="nav-link"

@@ -10,7 +10,6 @@ const router = createRouter({
 router.beforeEach((to) => {
   const authStore = useAuthStore()
   authStore.loadPersistedToken()
-  let vars: string = authStore.getUserId
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return {
       name: 'Login'
