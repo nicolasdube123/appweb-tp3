@@ -69,6 +69,19 @@ describe('QuestionColumn.vue', () => {
         expect(category.text()).toContain(question.category)
         expect(isPrivate.text()).toContain(question.private)
     })
+    
+    it ("Lors", async () => {
+        let wrapper = mount(QuestionColumn, {
+            propsData: { 
+                questions: arrayQuestions
+            }
+        })
+
+        let button = wrapper.find("#toggleQuestion")
+        button.trigger("click")
+
+        expect(button.text()).toContain("-")
+    })
 
     it("Lorsque question supprimé, la question n'existe plus", async () => {
         let wrapper = mount(QuestionColumn, {
