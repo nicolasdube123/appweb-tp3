@@ -9,9 +9,9 @@
     const store = useClassStore();
     const router = useRouter();
 
-    if (!await isGoodRole(Role.TEACHER)) {
+    /*if (!await isGoodRole(Role.TEACHER)) {
         router.push({ name: 'Profile' })
-    }
+    }*/
 
     const questions = ref(await store.getQuestions())
     const students = ref(await store.getStudents())
