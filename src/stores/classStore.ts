@@ -1,9 +1,10 @@
 import { Ref, computed, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { Question, Student } from '@/App.vue'
 import { userService } from '@/services/userService'
 import { questionService } from '@/services/questionService'
 import { Timer } from '@/scripts/timer'
+import Question from '@/interfaces/IQuestion'
+import Student from '@/interfaces/IStudent'
 
 export const useClassStore = defineStore('class', () => {
     const categories = ref<Array<String>>(["Matière", "Personnel"])
@@ -20,8 +21,8 @@ export const useClassStore = defineStore('class', () => {
         return await questionService.getQuestions()
     }
 
-    function addQuestion() {
-        //faire appel aux services
+    async function addQuestion(questionToAdd: Question) {
+        await questionService.createQuestion(questionToAdd)
     }
 
     async function removeQuestion(questionToRemove : string) {
@@ -38,12 +39,12 @@ export const useClassStore = defineStore('class', () => {
         }))
     }
 
-    function addStudent() {
-        //faire appel aux services
+    async function addStudent(name: string, email: string, password: string) {
+        await userService.createStudent(name, email, password)
     }
 
-    function removeStudent() {
-        //faire appel aux services
+    async function removeStudent(id: number) {
+        await userService.deleteUser(id.toString())
     }
 
   return {addCategory, removeCategory, categories, getQuestions, addQuestion, removeQuestion, getStudents, addStudent, removeStudent }

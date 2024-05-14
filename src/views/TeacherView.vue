@@ -6,9 +6,10 @@
     import { useClassStore } from '@/stores/classStore';
     import { ref } from 'vue';
 
-    const store = useClassStore();
-    const router = useRouter();
+    const store = useClassStore()
+    const router = useRouter()
 
+    //TODO
     /*if (!await isGoodRole(Role.TEACHER)) {
         router.push({ name: 'Profile' })
     }*/
