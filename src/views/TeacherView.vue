@@ -8,9 +8,9 @@
 
     const router = useRouter();
 
-    if (!await isGoodRole(Role.TEACHER)) {
+    /*if (!await isGoodRole(Role.TEACHER)) {
         router.push({ name: 'Profile' })
-    }
+    }*/
 
     const props = defineProps({
         questions: {

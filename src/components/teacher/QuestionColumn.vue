@@ -34,17 +34,17 @@
                         <label for="name">Nom de la catégorie:</label>
                         <input type="text" class="form-control" id="name">
                     </div>
-                    <a class="btn btn-primary btn-block w-100 mb-3" id="start" @click="submitNewCategory()">Ajouter</a>
+                    <a class="btn btn-primary btn-block w-100 mb-3" id="addCategory" @click="submitNewCategory()">Ajouter</a>
                 </form>
             </div>
         </li>
         <li v-for="(question, index) in props.questions" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
-                <button class="btn btn-danger btn-sm" @click="deleteQuestion(index)">
+                <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(index)">
                     Del
                 </button>
                 <h5>Question {{ index + 1 }}</h5>
-                <button class="btn btn-primary btn-sm" @click="toggleQuestion(index)">
+                <button class="btn btn-primary btn-sm" id="toggleQuestion" @click="toggleQuestion(index)">
                     {{ question.open ? '-' : '+' }}
                 </button>
             </div>
