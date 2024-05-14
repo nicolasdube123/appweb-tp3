@@ -1,6 +1,4 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
-    import { Question, Student } from '@/App.vue';
     import QuestionColumn from '../components/teacher/QuestionColumn.vue'
     import { useRouter } from 'vue-router'
     import { isGoodRole, Role } from '@/scripts/verifyRole';
@@ -15,7 +13,7 @@
         router.push({ name: 'Profile' })
     }
 
-    const questions = store.getQuestions()
+    const questions = ref(await store.getQuestions())
     const students = ref(await store.getStudents())
 
     function sendAmberAlert() {

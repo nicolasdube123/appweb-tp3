@@ -2,29 +2,30 @@ import { Ref, computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Question, Student } from '@/App.vue'
 import { userService } from '@/services/userService'
+import { questionService } from '@/services/questionService'
 import { Timer } from '@/scripts/timer'
 
 export const useClassStore = defineStore('class', () => {
     const categories = ref<Array<String>>(["Matière", "Personnel"])
     
-    function addCategory(categoryToAdd: String) {
+    function addCategory(categoryToAdd: string) {
         categories.value.push(categoryToAdd)
     }
 
-    function removeCategory(categoryToRemove: String) {
+    function removeCategory(categoryToRemove: string) {
         categories.value = categories.value.filter(category => category!== categoryToRemove)
     }
 
-    function getQuestions() : Ref<Array<Question>> {
-        
+    async function getQuestions() : Promise<Question[]> {
+        return await questionService.getQuestions()
     }
 
     function addQuestion() {
         //faire appel aux services
     }
 
-    function removeQuestion() {
-        //faire appel aux services
+    async function removeQuestion(questionToRemove : string) {
+        await questionService.deleteQuestion(questionToRemove)
     }
 
     async function getStudents() : Promise<Student[]> {
@@ -45,5 +46,5 @@ export const useClassStore = defineStore('class', () => {
         //faire appel aux services
     }
 
-  return { categories, getQuestions, addQuestion, removeQuestion, getStudents, addStudent, removeStudent }
+  return {addCategory, removeCategory, categories, getQuestions, addQuestion, removeQuestion, getStudents, addStudent, removeStudent }
 })
