@@ -29,6 +29,17 @@
       "role": "student"
     }
   ],
+  "questions":[
+    {
+      "id":1,
+      "studentId": 2,
+      "content": "Ça marche comment Vue?",
+      "super": true,
+      "priority": "P1",
+      "category": "Oui",
+      "private": false
+    }
+  ],
   "comments": [
     {
       "userId": 1,

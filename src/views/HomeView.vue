@@ -17,6 +17,7 @@
   <div class="home">
     <h1>Accueil</h1>
     <p>La page "Accueil" est accessible par tout le monde.</p>
+    <StudentView v-if="isStudent"/>
   </div>
 </template>
 

@@ -74,7 +74,7 @@ async function updatePassword (userId: string, newPassword: string) {
 }
 
 async function deleteUser (userId: string) {
-  try {1
+  try {
     await axiosAuth.delete(API_URL + "/" + userId)
   } catch (error) {
     throw parseAxiosError(error)

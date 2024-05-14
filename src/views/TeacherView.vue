@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { ref } from 'vue';
     import { Question, Student } from '@/App.vue';
     import QuestionColumn from '../components/teacher/QuestionColumn.vue'
     import { useRouter } from 'vue-router'

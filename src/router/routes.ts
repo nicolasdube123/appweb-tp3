@@ -24,22 +24,6 @@ const routes = [
     component: LoginView
   },
   {
-    path: '/student',
-    name: 'Student',
-    component: StudentView,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
-    path: '/teacher',
-    name: 'Teacher',
-    component: TeacherView,
-    meta: {
-      requiresAuth: true
-    }
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../views/NotFoundView.vue')
