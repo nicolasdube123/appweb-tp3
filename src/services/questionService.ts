@@ -28,6 +28,17 @@ async function getQuestionById (questionId: string): Promise<Question> {
     }
 }
 
+async function getQuestions(): Promise<Question[]> {
+  try {
+    const response = await axiosAuth.get(
+      API_URL +'/'
+    )
+    return response.data
+  } catch (error) {
+    throw parseAxiosError(error)
+  }
+}
+
 async function createQuestion (question: Question) {
   try {
     await axiosAuth.post(API_URL, {
@@ -47,8 +58,9 @@ async function deleteQuestion (questionId: string) {
 }
 
   
-export const userService = {
+export const questionService = {
   getQuestionId,
+  getQuestions,
   getQuestionById,
   createQuestion,
   deleteQuestion

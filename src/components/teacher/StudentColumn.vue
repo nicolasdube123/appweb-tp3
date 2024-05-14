@@ -1,6 +1,9 @@
 <script setup lang="ts">
-    import { Student } from '@/App.vue';
+    import Student from '@/interfaces/IStudent';
+    import { useClassStore } from '@/stores/classStore';
+    import { ref } from 'vue';
 
+    const classStore = useClassStore()
     const props = defineProps({
         students : {
             type: Object as () => Array<Student>,
@@ -13,11 +16,15 @@
     }
 
     function deleteStudent(index: number) {
-        props.students.splice(index, 1)
+        classStore.removeStudent(index)
     }
 
-    function submitNewStudent() {
+    const studentName = ref<String>("")
+    const studentEmail = ref<String>("")
+    const studentPassword = ref<String>("")
 
+    function submitNewStudent() {
+        classStore.addStudent(studentName.value, studentEmail.value, studentPassword.value)
     }
 </script>
 
@@ -31,9 +38,17 @@
                 <form>
                     <div class="form-group my-3">
                         <label for="name">Nom de l'élève:</label>
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" v-model="studentName">
                     </div>
-                    <a class="btn btn-primary btn-block w-100 mb-3" id="start" @click="submitNewStudent()">Ajouter</a>
+                    <div class="form-group my-3">
+                        <label for="email">Courriel:</label>
+                        <input type="text" class="form-control" id="email" v-model="studentEmail">
+                    </div>
+                    <div class="form-group my-3">
+                        <label for="password">Mot de passe:</label>
+                        <input type="password" class="form-control" id="password" v-model="studentPassword">
+                    </div>
+                    <a class="btn btn-primary btn-block w-100 mb-3" @click="submitNewStudent()">Ajouter</a>
                 </form>
             </div>
         </li>

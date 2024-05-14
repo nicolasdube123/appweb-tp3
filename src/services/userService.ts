@@ -23,6 +23,17 @@ async function getUserById (userId: string): Promise<User> {
   }
 }
 
+async function getStudents() : Promise<Array<User>> {
+  try {
+    const response = await axiosAuth.get(
+      API_URL +`/`
+    )
+    return response.data.filter((user: User) => user.role === "student")
+  } catch (error) {
+    throw parseAxiosError(error)
+  }
+}
+
 async function isUserWithGoodRole(userId: string, role: string): Promise<boolean> {
   const user: User = await getUserById(userId)
   return user.role === role
@@ -72,6 +83,7 @@ async function deleteUser (userId: string) {
 
 export const userService = {
   getUserById,
+  getStudents,
   isUserWithGoodRole,
   createStudent,
   updatePassword,

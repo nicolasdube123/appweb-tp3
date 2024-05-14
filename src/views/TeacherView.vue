@@ -1,27 +1,21 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
-    import { Question, Student } from '@/App.vue';
     import QuestionColumn from '../components/teacher/QuestionColumn.vue'
     import { useRouter } from 'vue-router'
     import { isGoodRole, Role } from '@/scripts/verifyRole';
     import StudentColumn from '../components/teacher/StudentColumn.vue'
+    import { useClassStore } from '@/stores/classStore';
+    import { ref } from 'vue';
 
-    const router = useRouter();
+    const store = useClassStore()
+    const router = useRouter()
 
+    //TODO
     /*if (!await isGoodRole(Role.TEACHER)) {
         router.push({ name: 'Profile' })
     }*/
 
-    const props = defineProps({
-        questions: {
-            type: Object as () => Array<Question>,
-            required: true
-        },
-        students : {
-            type: Object as () => Array<Student>,
-            required: true
-        }
-    })
+    const questions = ref(await store.getQuestions())
+    const students = ref(await store.getStudents())
 
     function sendAmberAlert() {
 
@@ -32,8 +26,8 @@
 <template>
     <div class="container bg-light d-flex flex-column">
         <div class="d-flex w-100">
-            <QuestionColumn class="w-50" :questions="props.questions"/>
-            <StudentColumn class="w-50" :students="props.students"/>
+            <QuestionColumn class="w-50" :questions="questions"/>
+            <StudentColumn class="w-50" :students="students"/>
         </div>
         <button @click="sendAmberAlert" class="btn btn-danger m-4 mb-5">
             Alerte Amber
