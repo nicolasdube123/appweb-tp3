@@ -2,8 +2,10 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { userService } from '../services/userService'
 import { useAuthStore } from './authStore'
+import { Timer } from '@/scripts/timer'
+import Student from '@/interfaces/IStudent'
 
-export const useProfileStore = defineStore('profileStoreId', () => {
+export const useUserStore = defineStore('userStoreId', () => {
   const email = ref('')
   const name = ref('')
   const onError = ref(false)
@@ -26,10 +28,31 @@ export const useProfileStore = defineStore('profileStoreId', () => {
     }
   }
 
+  async function getStudents() : Promise<Student[]> {
+      const users = await userService.getStudents()
+      return users.map(user => ({
+          id: user.id.toString(),
+          name: user.name,
+          open: false,
+          timer: new Timer()
+      }))
+  }
+
+  async function addStudent(name: string, email: string, password: string) {
+      await userService.createStudent(name, email, password)
+  }
+
+  async function removeStudent(id: number) {
+      await userService.deleteUser(id.toString())
+  }
+
   return { 
     email, 
     name, 
     onError, 
-    getProfile 
+    getProfile,
+    getStudents,
+    addStudent,
+    removeStudent
   }
 })

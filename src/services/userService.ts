@@ -39,18 +39,14 @@ async function isUserWithGoodRole(userId: string, role: string): Promise<boolean
   return user.role === role
 }
 
-async function createStudent (email: string, password: string, name: string) {
-  let student: User = {
-    email: email,
-    password: password,
-    name: name,
-    id: id,
-    role: "student"
-  }
-  
+async function createStudent (name: string, email: string, password: string) {
   try {
     await axiosAuth.post(API_URL, {
-      student
+      email: email,
+      password: password,
+      name: name,
+      id: id,
+      role: "student"
     })
   } catch (error) {
     throw parseAxiosError(error)
