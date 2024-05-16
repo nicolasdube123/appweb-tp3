@@ -53,11 +53,11 @@
                 </button>
             </div>
             <div v-if="question.open" class="mt-3">
-                <p><strong>Student ID:</strong> {{ question.studentId }}</p>
-                <p><strong>Content:</strong> {{ question.content }}</p>
-                <p><strong>Priority:</strong> {{ question.priority }}</p>
-                <p><strong>Category:</strong> {{ question.category }}</p>
-                <p><strong>Is Private:</strong> {{ question.private }}</p>
+                <p id="studentId"><strong>Student ID:</strong> {{ question.studentId }}</p>
+                <p id="content"><strong>Content:</strong> {{ question.content }}</p>
+                <p id="priority"><strong>Priority:</strong> {{ question.priority }}</p>
+                <p id="category"><strong>Category:</strong> {{ question.category }}</p>
+                <p id="isPrivate"><strong>Is Private:</strong> {{ question.private }}</p>
             </div>
         </li>
     </ul>
