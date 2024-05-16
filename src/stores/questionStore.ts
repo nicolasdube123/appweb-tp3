@@ -1,7 +1,8 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { questionService } from '@/services/questionService'
-import Question from '@/interfaces/IQuestion'
+import { Question } from '@/interfaces/IQuestion'
+import { QuestionDto } from '@/interfaces/IQuestion'
 
 export const useQuestionStore = defineStore('questionStore', () => {
     const categories = ref<Array<String>>(["Matière", "Personnel"])
@@ -18,12 +19,20 @@ export const useQuestionStore = defineStore('questionStore', () => {
         return await questionService.getQuestions()
     }
 
-    async function addQuestion(questionToAdd : Question) {
-        await questionService.createQuestion(questionToAdd)
+    async function addQuestion(content: string, superHand: boolean, priority: string, category: string, locked: boolean) {
+        const questionDto : QuestionDto = {
+            studentId: '1', //TODO
+            content: content,
+            super: superHand,
+            priority: priority,
+            category: category,
+            private: locked
+        }
+        await questionService.createQuestion(questionDto)
     }
 
-    async function removeQuestion(questionToRemove : string) {
-        await questionService.deleteQuestion(questionToRemove)
+    async function removeQuestion(questionToRemove : number) {
+        await questionService.deleteQuestion(questionToRemove.toString())
     }
 
   return {addCategory, removeCategory, categories, getQuestions, addQuestion, removeQuestion }

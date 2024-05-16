@@ -29,15 +29,45 @@
       "role": "student"
     }
   ],
-  "questions":[
+  "questions": [
     {
-      "id":1,
-      "studentId": 2,
-      "content": "Ça marche comment Vue?",
-      "super": true,
-      "priority": "P1",
-      "category": "Oui",
-      "private": false
+      "question": {
+        "id": 2,
+        "studentId": "1",
+        "content": "allo",
+        "super": true,
+        "priority": 1,
+        "category": "Matière",
+        "private": true,
+        "open": true
+      },
+      "id": 2
+    },
+    {
+      "question": {
+        "id": 3,
+        "studentId": "1",
+        "content": "",
+        "super": false,
+        "priority": "",
+        "category": "",
+        "private": false,
+        "open": true
+      },
+      "id": 13
+    },
+    {
+      "question": {
+        "id": 2,
+        "studentId": "1",
+        "content": "gxzcfths5b",
+        "super": true,
+        "priority": 2,
+        "category": "Matière",
+        "private": true,
+        "open": true
+      },
+      "id": 16
     }
   ],
   "comments": [

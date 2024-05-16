@@ -1,6 +1,8 @@
 <script setup lang="ts">
-    import { ref } from 'vue'
-    import { Question } from '../../App.vue';
+    import { Question } from '@/interfaces/IQuestion';
+    import { useQuestionStore } from '@/stores/questionStore'
+
+    const questionStore = useQuestionStore()
 
     const props = defineProps({
         questions: {
@@ -10,11 +12,13 @@
     })
 
     function toggleQuestion(index: number) {
-        props.questions[index].open = !props.questions[index].open;
+        // On modifie seulement le props. Par défaut, les questions sont toujours fermées
+        props.questions[index].open = !props.questions[index].open 
     }
 
     function deleteQuestion(index: number) {
         props.questions.splice(index, 1)
+        questionStore.removeQuestion(index)
     }
 
     function submitNewCategory() {

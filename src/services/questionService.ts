@@ -1,6 +1,7 @@
 import { parseAxiosError } from '../shared/parseAxiosError'
 import axiosAuth from '../shared/axiosAuth'
-import Question from '../interfaces/IQuestion'
+import { Question } from '../interfaces/IQuestion'
+import { QuestionDto } from '../interfaces/IQuestion'
 
 const QUESTION_PATH: string = "/questions"
 const API_URL: string = "http://127.0.0.1:3000" + QUESTION_PATH
@@ -39,11 +40,22 @@ async function getQuestions(): Promise<Question[]> {
   }
 }
 
-async function createQuestion (question: Question) {
+async function createQuestion (questionDto: QuestionDto) {
+  const question : Question = {
+    id: id,
+    studentId: questionDto.studentId,
+    content: questionDto.content,
+    super: questionDto.super,
+    priority: questionDto.priority,
+    category: questionDto.category,
+    private: questionDto.private,
+    open: true
+  }
   try {
     await axiosAuth.post(API_URL, {
       question
     })
+    id++
   } catch (error) {
     throw parseAxiosError(error)
   }
@@ -56,7 +68,6 @@ async function deleteQuestion (questionId: string) {
     throw parseAxiosError(error)
   }
 }
-
   
 export const questionService = {
   getQuestionId,
