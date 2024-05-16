@@ -2,8 +2,9 @@
   "users": [
     {
       "email": "mon@courriel.com",
-      "password": "$2a$10$WoVaR5cZ2CaImTsXvAglpOUcODx5MODtZR7KSnxcLTL2kg3HVOQIa",
+      "password": "$2a$10$8UxpN0v/mKs4PE.mKBilweTWUsWIU9/HW7Sr003cqBI6Wd.d8MPFO",
       "name": "Bruce Lee",
+      "role": "teacher",
       "id": 1
     }
   ],

@@ -17,6 +17,7 @@ let studentArray: Array<Student> = [
 describe("StudentColumn", () => {
 
     it("Les entrants existents", async () => {
+        console.log(studentArray)
         let wrapper = mount(StudentColumn, {
             propsData: {
                 students: studentArray

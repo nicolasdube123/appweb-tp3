@@ -19,7 +19,6 @@ describe('Récits utilisateur', () => {
       email: user.email,
       password: user.password,
       name: user.name,
-      id: user.id,
       role: user.role
     })
   })
