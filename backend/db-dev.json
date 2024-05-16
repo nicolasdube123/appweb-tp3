@@ -27,47 +27,24 @@
       "name": "Jimmy Gilbert",
       "id": 3,
       "role": "student"
+    },
+    {
+      "email": "nicolas.dube@bell.net",
+      "password": "$2a$10$9Ff7CVfx7uQkUuQkllTFdOiB4rJ4eufKc6CPWXMB39ij1wYmydCCW",
+      "name": "sf",
+      "id": 4,
+      "role": "student"
     }
   ],
   "questions": [
     {
-      "question": {
-        "id": 2,
-        "studentId": "1",
-        "content": "allo",
-        "super": true,
-        "priority": 1,
-        "category": "Matière",
-        "private": true,
-        "open": true
-      },
-      "id": 2
-    },
-    {
-      "question": {
-        "id": 3,
-        "studentId": "1",
-        "content": "",
-        "super": false,
-        "priority": "",
-        "category": "",
-        "private": false,
-        "open": true
-      },
-      "id": 13
-    },
-    {
-      "question": {
-        "id": 2,
-        "studentId": "1",
-        "content": "gxzcfths5b",
-        "super": true,
-        "priority": 2,
-        "category": "Matière",
-        "private": true,
-        "open": true
-      },
-      "id": 16
+      "id": 1,
+      "studentId": 2,
+      "content": "Ça marche comment Vue?",
+      "super": true,
+      "priority": "P1",
+      "category": "Oui",
+      "private": false
     }
   ],
   "comments": [

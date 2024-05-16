@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useAuthStore } from '../stores/authStore'
+import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
+import PopUp from '@/components/PopUp.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -13,6 +15,12 @@ function logout() {
   router.push({
     name: 'Login'
   })
+}
+
+const userStore = useUserStore()
+function closePopUp() {
+  console.log("ge")
+  userStore.amberAlertShown = false
 }
 </script>
 
@@ -74,4 +82,8 @@ function logout() {
     </div>
   </nav>
   </Suspense>
+  <PopUp v-if="userStore.amberAlertShown" 
+    @closePopUp="closePopUp"
+    :title="'ALERTE AMBER'"
+  />
 </template>
