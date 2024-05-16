@@ -1,12 +1,14 @@
 <script setup lang="ts">
     import QuestionColumn from '../components/teacher/QuestionColumn.vue'
     import { useRouter } from 'vue-router'
-    import { isGoodRole, Role } from '@/scripts/verifyRole';
+    import { isGoodRole, Role } from '@/scripts/verifyRole'
     import StudentColumn from '../components/teacher/StudentColumn.vue'
-    import { useClassStore } from '@/stores/classStore';
-    import { ref } from 'vue';
+    import { useQuestionStore } from '@/stores/questionStore'
+    import { useUserStore } from '@/stores/userStore'
+    import { ref } from 'vue'
 
-    const store = useClassStore()
+    const questionStore = useQuestionStore()
+    const userStore = useUserStore()
     const router = useRouter()
 
     //TODO
@@ -14,8 +16,8 @@
         router.push({ name: 'Profile' })
     }*/
 
-    const questions = ref(await store.getQuestions())
-    const students = ref(await store.getStudents())
+    const questions = ref(await questionStore.getQuestions())
+    const students = ref(await userStore.getStudents())
 
     function sendAmberAlert() {
 

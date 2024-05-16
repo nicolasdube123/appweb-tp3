@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
-import { useProfileStore } from '../stores/profileStore'
+import { useUserStore } from '../stores/userStore'
 
-const profileStore = useProfileStore()
+const userStore = useUserStore()
 
-const name = computed(() => profileStore.name)
-const email = computed(() => profileStore.email)
-const onError = computed(() => profileStore.onError)
+const name = computed(() => userStore.name)
+const email = computed(() => userStore.email)
+const onError = computed(() => userStore.onError)
 
 onMounted(async () => {
   try {
-    await profileStore.getProfile()
+    await userStore.getProfile()
     if (onError.value) {
       // Utilisation d'une boîte de dialogue au lieu de 'confirm'
       confirm("Une erreur s'est produite lors de la récupération du profil de l'utilisateur.")

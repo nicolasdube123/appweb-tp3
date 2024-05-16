@@ -1,9 +1,9 @@
 <script setup lang="ts">
     import Student from '@/interfaces/IStudent';
-    import { useClassStore } from '@/stores/classStore';
+    import { useUserStore } from '@/stores/userStore';
     import { ref } from 'vue';
 
-    const classStore = useClassStore()
+    const userStore = useUserStore()
     const props = defineProps({
         students : {
             type: Object as () => Array<Student>,
@@ -16,15 +16,18 @@
     }
 
     function deleteStudent(index: number) {
-        classStore.removeStudent(index)
+        userStore.removeStudent(index)
     }
 
-    const studentName = ref<String>("")
-    const studentEmail = ref<String>("")
-    const studentPassword = ref<String>("")
+    let studentName = ref<String>('')
+    let studentEmail = ref<String>('')
+    let studentPassword = ref<String>('')
 
     function submitNewStudent() {
-        classStore.addStudent(studentName.value, studentEmail.value, studentPassword.value)
+        console.log(studentName.value)
+        console.log(studentEmail.value)
+        console.log(studentPassword.value)
+        userStore.addStudent(studentName.value, studentEmail.value, studentPassword.value)
     }
 </script>
 
