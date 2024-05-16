@@ -9,6 +9,7 @@ export const useUserStore = defineStore('userStoreId', () => {
   const email = ref('')
   const name = ref('')
   const onError = ref(false)
+  let amberAlertShown = ref(false)
 
   function _initializeProfile(profile: { email: string; name: string }) {
     email.value = profile.email
@@ -53,6 +54,7 @@ export const useUserStore = defineStore('userStoreId', () => {
     getProfile,
     getStudents,
     addStudent,
-    removeStudent
+    removeStudent,
+    amberAlertShown
   }
 })

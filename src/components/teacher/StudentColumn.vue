@@ -12,21 +12,20 @@
     const userStore = useUserStore()
 
     function toggleStudent(index: number) {
+        // On modifie seulement le props. Par défaut, les fenêtres d'élèves sont toujours fermées
         props.students[index].open = !props.students[index].open;
     }
 
     function deleteStudent(index: number) {
+        props.students.splice(index, 1)
         userStore.removeStudent(index)
     }
 
-    let studentName = ref<string>('')
-    let studentEmail = ref<string>('')
-    let studentPassword = ref<string>('')
+    let studentName = ref('')
+    let studentEmail = ref('')
+    let studentPassword = ref('')
 
     function submitNewStudent() {
-        console.log(studentName.value)
-        console.log(studentEmail.value)
-        console.log(studentPassword.value)
         userStore.addStudent(studentName.value, studentEmail.value, studentPassword.value)
     }
 </script>

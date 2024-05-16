@@ -1,6 +1,10 @@
 <script setup lang="ts">
-    import { ref } from 'vue'
-    import Question from '@/interfaces/IQuestion';
+    import { Question } from '@/interfaces/IQuestion';
+    import { useQuestionStore } from '@/stores/questionStore'
+    import { ref } from 'vue';
+    import PopUp from '@/components/PopUp.vue'
+
+    const questionStore = useQuestionStore()
 
     const props = defineProps({
         questions: {
@@ -9,22 +13,45 @@
         }
     })
 
+    const category = ref('')
+    const errorPopUpShown = ref(false)
+
     function toggleQuestion(index: number) {
-        props.questions[index].open = !props.questions[index].open;
+        // On modifie seulement le props. Par défaut, les fenêtres de question sont toujours fermées
+        props.questions[index].open = !props.questions[index].open 
     }
 
     function deleteQuestion(index: number) {
         props.questions.splice(index, 1)
+        questionStore.removeQuestion(index)
     }
 
     function submitNewCategory() {
-
+        if(category.value.trim().length != 0 && !questionStore.categories.includes(category.value.trim())) {
+            questionStore.addCategory(category.value)
+        } else {
+            showErrorPopUp()
+        }
     }
+
+    function showErrorPopUp() {
+        errorPopUpShown.value = true
+    }
+
+    function hideErrorPopUp() {
+        errorPopUpShown.value = false
+    }
+
 </script>
 
 <template>
     <ul class="list-group mt-3">
         <li class="list-group-item">
+            <PopUp v-if="errorPopUpShown" 
+                @closePopUp="hideErrorPopUp"
+                :title="'Erreur'"
+                :text="'Vérifiez que les champs sont complets'"
+            />
             <div class="d-flex justify-content-center align-items-center bg-dark-subtle p-2 rounded">
                 <h5>Ajouter une catégorie:</h5>
             </div>
@@ -32,7 +59,7 @@
                 <form>
                     <div class="form-group my-3">
                         <label for="name">Nom de la catégorie:</label>
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control" id="name" v-model="category">
                     </div>
                     <a class="btn btn-primary btn-block w-100 mb-3" id="addCategory" @click="submitNewCategory()">Ajouter</a>
                 </form>

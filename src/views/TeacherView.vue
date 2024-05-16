@@ -20,7 +20,7 @@
     const students = ref(await userStore.getStudents())
 
     function sendAmberAlert() {
-
+        userStore.amberAlertShown = true
     }
 
 </script>
