@@ -29,6 +29,7 @@
     function submitNewCategory() {
         if(category.value.trim().length != 0 && !questionStore.categories.includes(category.value.trim())) {
             questionStore.addCategory(category.value)
+            category.value = ''
         } else {
             showErrorPopUp()
         }
@@ -50,7 +51,7 @@
             <PopUp v-if="errorPopUpShown" 
                 @closePopUp="hideErrorPopUp"
                 :title="'Erreur'"
-                :text="'Vérifiez que les champs sont complets'"
+                :text="'Vérifiez que les champs sont remplis'"
             />
             <div class="d-flex justify-content-center align-items-center bg-dark-subtle p-2 rounded">
                 <h5>Ajouter une catégorie:</h5>

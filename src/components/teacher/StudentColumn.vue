@@ -2,6 +2,7 @@
     import Student from '@/interfaces/IStudent';
     import { useUserStore } from '@/stores/userStore';
     import { ref } from 'vue';
+    import PopUp from '@/components/PopUp.vue'
 
     const userStore = useUserStore()
     const props = defineProps({
@@ -10,6 +11,8 @@
             required: true
         }
     })
+
+    const errorPopUpShown = ref(false)
 
     function toggleStudent(index: number) {
         // On modifie seulement le props. Par défaut, les fenêtres d'élèves sont toujours fermées
@@ -25,14 +28,35 @@
     let studentEmail = ref('')
     let studentPassword = ref('')
 
-    function submitNewStudent() {
-        userStore.addStudent(studentName.value, studentEmail.value, studentPassword.value)
+    async function submitNewStudent() {
+        try {
+            await userStore.addStudent(studentName.value, studentEmail.value, studentPassword.value)
+            studentName.value = ''
+            studentEmail.value = ''
+            studentPassword.value = ''
+        } catch {
+            showErrorPopUp()
+        }
     }
+
+    function showErrorPopUp() {
+        errorPopUpShown.value = true
+    }
+
+    function hideErrorPopUp() {
+        errorPopUpShown.value = false
+    }
+
 </script>
 
 <template>
     <ul class="list-group mt-3">
         <li class="list-group-item">
+            <PopUp v-if="errorPopUpShown" 
+                @closePopUp="hideErrorPopUp"
+                :title="'Erreur'"
+                :text="'Vérifiez que les champs sont remplis et valides'"
+            />
             <div class="d-flex justify-content-center align-items-center bg-dark-subtle p-2 rounded">
                 <h5>Ajouter un élève:</h5>
             </div>
