@@ -14,7 +14,7 @@ let studentArray: Array<Student> = [
     student
 ]
 
-describe("StudentColumn", () => {
+describe("StudentColumn.vue", () => {
 
     it("Les entrants existents", async () => {
         console.log(studentArray)

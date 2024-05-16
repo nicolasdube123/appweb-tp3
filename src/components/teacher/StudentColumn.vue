@@ -3,13 +3,13 @@
     import { useUserStore } from '@/stores/userStore';
     import { ref } from 'vue';
 
-    const userStore = useUserStore()
     const props = defineProps({
         students : {
             type: Object as () => Array<Student>,
-            required: true
-        }
-    })
+                required: true
+            }
+        })
+    const userStore = useUserStore()
 
     function toggleStudent(index: number) {
         props.students[index].open = !props.students[index].open;

@@ -1,11 +1,18 @@
 describe('Récits utilisateur', () => {
   // On définit un utilisateur pour les tests. Cet utilisateur sera créé dans la base de données avant chaque test.
-  const user = {
+  const teacherUser = {
     email: 'mon@courriel.com',
     password: 'monmotdepasse',
     name: 'Bruce Lee',
     id: 1,
     role: "teacher"
+  }
+  const studentUser = {
+    email: 'test@test.com',
+    password: 'motdepasse',
+    name: 'Jean Guy',
+    id: 2,
+    role: "student"
   }
 
   // Exécuté avant chaque test
@@ -16,10 +23,18 @@ describe('Récits utilisateur', () => {
     // On ajoute l'utilisateur à la BD en utilisant la commande POST /register de notre API REST (serveur backend).
     // TODO : utiliser une variable d'environnement pour l'URL du serveur backend.
     cy.request('POST', 'http://127.0.0.1:3000/register', {
-      email: user.email,
-      password: user.password,
-      name: user.name,
-      role: user.role
+      email: teacherUser.email,
+      password: teacherUser.password,
+      name: teacherUser.name,
+      id: teacherUser.id,
+      role: teacherUser.role
+    })
+    cy.request('POST', 'http://127.0.0.1:3000/register', {
+      email: studentUser.email,
+      password: studentUser.password,
+      name: studentUser.name,
+      id: studentUser.id,
+      role: studentUser.role
     })
   })
 
@@ -33,31 +48,42 @@ describe('Récits utilisateur', () => {
     cy.contains('h1', /accueil/i)
   })
 
-  /*it('je peux accéder à la page à propos', () => {
-    cy.visit('/about')
-
-    cy.contains('h1', /à propos/i)
-  })*/
-
-  it('je peux me connecter - version 1 ', () => {
+  it('je peux me connecter en tant qu\'étudiant - version 1 ', () => {
     cy.visit('/login')
 
     // On utilise .get pour sélectionner dans le DOM un élément input dont l'attribut name est email-input. Ensuite, .type est utilisé pour saisir du texte dans cet élément.
-    cy.get('input[name=email-input]').type(user.email)
-    cy.get('input[name=password-input]').type(user.password)
+    cy.get('input[name=email-input]').type(studentUser.email)
+    cy.get('input[name=password-input]').type(studentUser.password)
     // On utilise .get pour sélectionner dans le DOM un élément bonton dont l'attribut type est submit). Ensuite, .click est utilisé pour cliquer sur cet élément.
     cy.get('button[type=submit]').click()
 
     cy.contains(/déconnecter/i)
   })
 
-  it('je peux me connecter - version 2', () => {
+  it('je peux me connecter en tant qu\'étudiant - version 2', () => {
     // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
-    cy.login(user.email, user.password)
+    cy.login(studentUser.email, studentUser.password)
+  })
+
+  it('je peux me connecter en tant que professeur - version 1 ', () => {
+    cy.visit('/login')
+
+    // On utilise .get pour sélectionner dans le DOM un élément input dont l'attribut name est email-input. Ensuite, .type est utilisé pour saisir du texte dans cet élément.
+    cy.get('input[name=email-input]').type(teacherUser.email)
+    cy.get('input[name=password-input]').type(teacherUser.password)
+    // On utilise .get pour sélectionner dans le DOM un élément bonton dont l'attribut type est submit). Ensuite, .click est utilisé pour cliquer sur cet élément.
+    cy.get('button[type=submit]').click()
+
+    cy.contains(/déconnecter/i)
+  })
+
+  it('je peux me connecter en tant que professeur - version 2', () => {
+    // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
+    cy.login(teacherUser.email, teacherUser.password)
   })
 
   it('je peux me déconnecter', () => {
-    cy.login(user.email, user.password)
+    cy.login(teacherUser.email, teacherUser.password)
 
     cy.contains(/déconnecter/i).click()
 
@@ -65,9 +91,9 @@ describe('Récits utilisateur', () => {
   })
 
   it('je peux voir mon profil', () => {
-    cy.login(user.email, user.password)
+    cy.login(teacherUser.email, teacherUser.password)
 
-    cy.contains(user.name)
-    cy.contains(user.email)
+    cy.contains(teacherUser.name)
+    cy.contains(teacherUser.email)
   })
 })

@@ -27,18 +27,11 @@
       "name": "Jimmy Gilbert",
       "id": 3,
       "role": "student"
-    },
-    {
-      "email": "mon@courriel.com",
-      "password": "$2a$10$vucIWmDN9xwCTN8z3SkG6eNtJOCPS9mhdJRgyGkRDDXKbX1aODHQO",
-      "name": "Bruce Lee",
-      "role": "teacher",
-      "id": 4
     }
   ],
-  "questions": [
+  "questions":[
     {
-      "id": 1,
+      "id":1,
       "studentId": 2,
       "content": "Ça marche comment Vue?",
       "super": true,
