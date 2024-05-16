@@ -13,7 +13,6 @@ let question: Question = {
     private: false,
     open: true
 }
-
 let arrayQuestion: Array<Question> = [
     question
 ]

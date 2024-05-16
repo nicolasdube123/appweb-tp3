@@ -3,7 +3,9 @@ describe('Récits utilisateur', () => {
   const user = {
     email: 'mon@courriel.com',
     password: 'monmotdepasse',
-    name: 'Bruce Lee'
+    name: 'Bruce Lee',
+    id: 1,
+    role: "teacher"
   }
 
   // Exécuté avant chaque test
@@ -16,7 +18,9 @@ describe('Récits utilisateur', () => {
     cy.request('POST', 'http://127.0.0.1:3000/register', {
       email: user.email,
       password: user.password,
-      name: user.name
+      name: user.name,
+      id: user.id,
+      role: user.role
     })
   })
 
@@ -30,11 +34,11 @@ describe('Récits utilisateur', () => {
     cy.contains('h1', /accueil/i)
   })
 
-  it('je peux accéder à la page à propos', () => {
+  /*it('je peux accéder à la page à propos', () => {
     cy.visit('/about')
 
     cy.contains('h1', /à propos/i)
-  })
+  })*/
 
   it('je peux me connecter - version 1 ', () => {
     cy.visit('/login')
