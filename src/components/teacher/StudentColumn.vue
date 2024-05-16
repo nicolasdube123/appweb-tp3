@@ -48,17 +48,17 @@
                         <label for="password">Mot de passe:</label>
                         <input type="password" class="form-control" id="password" v-model="studentPassword">
                     </div>
-                    <a class="btn btn-primary btn-block w-100 mb-3" @click="submitNewStudent()">Ajouter</a>
+                    <a class="btn btn-primary btn-block w-100 mb-3" @click="submitNewStudent()" id="add">Ajouter</a>
                 </form>
             </div>
         </li>
         <li v-for="(student, index) in props.students" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
-                <button class="btn btn-danger btn-sm" @click="deleteStudent(index)">
+                <button class="btn btn-danger btn-sm" @click="deleteStudent(index)" id="delete">
                     Del
                 </button>
                 <h5>{{ student.name }}</h5>
-                <button class="btn btn-primary btn-sm" @click="toggleStudent(index)">
+                <button class="btn btn-primary btn-sm" @click="toggleStudent(index)" id="toggle">
                     {{ student.open ? '-' : '+' }}
                 </button>
             </div>
@@ -68,12 +68,12 @@
                     <div v-if="!student.timer.running" class="form-group">
                         <label for="time">Temps: </label>
                         <input type="number" class="form-control" v-model="student.timer.time" id="time" />
-                        <button @click="student.timer.startTimer()" class="btn btn-primary">Start</button>
+                        <button @click="student.timer.startTimer()" class="btn btn-primary" id="start">Start</button>
                     </div>
                     <div v-else>
                         <p class="h3">Temps restant: {{ student.timer.formatTime() }}</p>
-                        <button @click="student.timer.pauseTimer()" class="btn btn-secondary">Pause</button>
-                        <button @click="student.timer.stopTimer()" class="btn btn-danger">Stop</button>
+                        <button @click="student.timer.pauseTimer()" class="btn btn-secondary" id="pause">Pause</button>
+                        <button @click="student.timer.stopTimer()" class="btn btn-danger" id="stop">Stop</button>
                     </div>
                 </div>
             </div>

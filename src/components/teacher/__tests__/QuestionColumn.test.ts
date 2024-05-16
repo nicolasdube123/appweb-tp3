@@ -14,7 +14,7 @@ let question: Question = {
     open: true
 }
 
-let arrayQuestions: Array<Question> = [
+let arrayQuestion: Array<Question> = [
     question
 ]
 
@@ -23,7 +23,7 @@ describe('QuestionColumn.vue', () => {
     it("Les entrants existent", async () => {
         let wrapper = mount(QuestionColumn, {
             propsData: { 
-                questions: arrayQuestions
+                questions: arrayQuestion
             }
         })
 
@@ -53,7 +53,7 @@ describe('QuestionColumn.vue', () => {
     it("Le composant contient la question envoyé en props", async () => {
         let wrapper = mount(QuestionColumn, {
             propsData: { 
-                questions: arrayQuestions
+                questions: arrayQuestion
             }
         })
 
@@ -73,7 +73,7 @@ describe('QuestionColumn.vue', () => {
     it ("Lors", async () => {
         let wrapper = mount(QuestionColumn, {
             propsData: { 
-                questions: arrayQuestions
+                questions: arrayQuestion
             }
         })
 
@@ -86,7 +86,7 @@ describe('QuestionColumn.vue', () => {
     it("Lorsque question supprimé, la question n'existe plus", async () => {
         let wrapper = mount(QuestionColumn, {
             propsData: { 
-                questions: arrayQuestions
+                questions: arrayQuestion
             }
         })
 

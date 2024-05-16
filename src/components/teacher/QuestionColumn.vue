@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ref } from 'vue'
-    import { Question } from '../../App.vue';
+    import Question from '@/interfaces/IQuestion';
 
     const props = defineProps({
         questions: {
