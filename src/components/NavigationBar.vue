@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthStore } from '../stores/authStore'
 import { useUserStore } from '../stores/userStore'
 import { useRouter } from 'vue-router'
@@ -9,6 +9,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const isLoggedIn = computed(() => authStore.isLoggedIn)
+const isStudent = computed(() => authStore.isLoggedInAsTeacher)
 
 function logout() {
   authStore.logout()
@@ -18,8 +19,8 @@ function logout() {
 }
 
 const userStore = useUserStore()
+
 function closePopUp() {
-  console.log("ge")
   userStore.amberAlertShown = false
 }
 </script>
@@ -82,7 +83,7 @@ function closePopUp() {
     </div>
   </nav>
   </Suspense>
-  <PopUp v-if="userStore.amberAlertShown" 
+  <PopUp v-if="userStore.amberAlertShown && isStudent" 
     @closePopUp="closePopUp"
     :title="'ALERTE AMBER'"
   />
