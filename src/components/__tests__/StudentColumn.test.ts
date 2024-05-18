@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import StudentColumn from '../StudentColumn.vue'
+import StudentColumn from '../teacher/StudentColumn.vue'
 import Student from '@/interfaces/IStudent'
 import { Timer } from '@/scripts/timer'
 

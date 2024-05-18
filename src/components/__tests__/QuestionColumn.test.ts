@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import QuestionColumn from '../QuestionColumn.vue'
-import Question from '@/interfaces/IQuestion'
+import QuestionColumn from '../teacher/QuestionColumn.vue'
+import { Question } from '@/interfaces/IQuestion'
 
 let question: Question = {
     id: 1,

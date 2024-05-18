@@ -27,18 +27,11 @@
       "name": "Jimmy Gilbert",
       "id": 3,
       "role": "student"
-    },
-    {
-      "email": "nicolas.dube@bell.net",
-      "password": "$2a$10$9Ff7CVfx7uQkUuQkllTFdOiB4rJ4eufKc6CPWXMB39ij1wYmydCCW",
-      "name": "sf",
-      "id": 4,
-      "role": "student"
     }
   ],
-  "questions": [
+  "questions":[
     {
-      "id": 1,
+      "id":1,
       "studentId": 2,
       "content": "Ça marche comment Vue?",
       "super": true,
