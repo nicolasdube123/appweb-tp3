@@ -41,24 +41,26 @@ async function getQuestions(): Promise<Question[]> {
 }
 
 async function createQuestion (questionDto: QuestionDto) {
-  const question : Question = {
-    id: id,
-    studentId: questionDto.studentId,
-    content: questionDto.content,
-    super: questionDto.super,
-    priority: questionDto.priority,
-    category: questionDto.category,
-    private: questionDto.private,
-    open: true
-  }
   try {
-    await axiosAuth.post(API_URL, {
-      question
+    await axiosAuth.post(API_URL, { 
+      id: id,
+      studentId: questionDto.studentId,
+      content: questionDto.content,
+      super: questionDto.super,
+      priority: questionDto.priority,
+      category: questionDto.category,
+      private: questionDto.private
+    }, {
+      //Pour retirer une quesiton
+      //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
+      headers: {
+        Authorization: "Bearer "+localStorage.getItem('token')
+      }
     })
-    id++
   } catch (error) {
     throw parseAxiosError(error)
   }
+  id++
 }
 
 async function deleteQuestion (questionId: string) {
