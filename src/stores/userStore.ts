@@ -11,6 +11,8 @@ export const useUserStore = defineStore('userStoreId', () => {
   const onError = ref(false)
   let amberAlertShown = ref(false)
 
+  const students = ref<Array<Student>>([])
+
   function _initializeProfile(profile: { email: string; name: string }) {
     email.value = profile.email
     name.value = profile.name
@@ -29,22 +31,25 @@ export const useUserStore = defineStore('userStoreId', () => {
     }
   }
 
-  async function getStudents() : Promise<Student[]> {
-      const users = await userService.getStudents()
-      return users.map(user => ({
+  async function refreshStudents() {
+      const usersResponse = await userService.getStudents()
+      const studentsResponse : Student[] = usersResponse.map(user => ({
           id: user.id.toString(),
           name: user.name,
           open: false,
           timer: new Timer()
       }))
+      students.value = studentsResponse
   }
 
   async function addStudent(name: string, email: string, password: string) {
       await userService.createStudent(name, email, password)
+      await refreshStudents()
   }
 
   async function removeStudent(id: number) {
       await userService.deleteUser(id.toString())
+      await refreshStudents()
   }
 
   return { 
@@ -52,7 +57,8 @@ export const useUserStore = defineStore('userStoreId', () => {
     name, 
     onError, 
     getProfile,
-    getStudents,
+    students,
+    refreshStudents,
     addStudent,
     removeStudent,
     amberAlertShown
