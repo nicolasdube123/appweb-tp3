@@ -63,7 +63,13 @@ async function createQuestion (questionDto: QuestionDto) {
 
 async function deleteQuestion (questionId: string) {
   try {
-    await axiosAuth.delete(API_URL + "/" + questionId)
+    await axiosAuth.delete(API_URL + "/" + questionId, {
+      //Pour retirer une quesiton
+      //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
+      headers: {
+        Authorization: "Bearer "+localStorage.getItem('token')
+      }
+    })
   } catch (error) {
     throw parseAxiosError(error)
   }
