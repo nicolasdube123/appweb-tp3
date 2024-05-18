@@ -15,7 +15,6 @@
         { value: 5, label: 'P5' }
     ]
 
-    const raisedHand = ref(true)
     const errorPopUpShown = ref(false)
 
     //Options formulaire
@@ -29,7 +28,6 @@
 
     function askQuestion() {
         if (validateQuestion()) {
-            raisedHand.value = true
             questionStore.addQuestion(content.value, superHand.value, priority.value, category.value, locked.value)
         } else {
             showErrorPopUp()
@@ -76,8 +74,8 @@
             <!--HandComponent-->
             <div class="w-25 d-flex">
                 <div class="w-75 d-flex align-items-center justify-content-center">
-                    <img v-if="raisedHand && !superHand" src="../assets/hand.png" alt="Main levée" class="img-fluid p-2">
-                    <img v-if="raisedHand && superHand" src="../assets/super-hand.png" alt="Super-main levée" class="img-fluid p-2">
+                    <img v-if="!superHand" src="../assets/hand.png" alt="Main levée" class="img-fluid p-2">
+                    <img v-if="superHand" src="../assets/super-hand.png" alt="Super-main levée" class="img-fluid p-2">
                 </div>
             </div>
             <!--Hand/-->
@@ -88,18 +86,15 @@
                         <img v-if="!superHand" src="../assets/star-empty.png" alt="Super-main" class="img-fluid">
                         <img v-if="superHand" src="../assets/star-full.png" alt="Super-main" class="img-fluid">
                     </button>
-                    <button v-if=raisedHand @click="raisedHand = !raisedHand" class="btn btn-primary m-2 my-4 p-2 d-flex align-items-center justify-content-center">
-                        <img src="../assets/down-arrow.png" alt="Baisser la main" class="img-fluid bg-primary">
-                    </button>
                 </div>
                 <div class="w-75 m-2 d-flex">
                     <div class="d-flex flex-column w-75">
                         <div class="h-75 p-1 form-floating">
-                            <textarea class="form-control h-100" placeholder="Leave a comment here" id="question-field" v-model="content"></textarea>
+                            <textarea class="form-control h-100" placeholder="Votre question:" id="question-field" v-model="content"></textarea>
                             <label for="question-field">Votre question:</label>
                         </div>
                         <button @click="askQuestion" class="h-25 btn btn-primary m-2">
-                            Lever la main
+                            Soumettre la {{ superHand ? 'super-' : '' }}question
                         </button>
                     </div>
                     <div class="d-flex flex-column col">
