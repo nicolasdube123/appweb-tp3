@@ -7,10 +7,17 @@ export enum Role {
 }
 
 
-export async function isGoodRole(role: Role): Promise<boolean> {
+export async function getRole(): Promise<Role | undefined> {
     const authStore = useAuthStore()
-  //sauthStore.loadPersistedToken()
-    let userId: string = authStore.getUserId
-    console.log(userId)
-    return await userService.isUserWithGoodRole(userId, role)
+    authStore.loadPersistedToken()
+    const userId: string = authStore.getUserId
+    const role = await userService.getRole(userId)
+    switch (role.toLowerCase()) {
+        case Role.STUDENT:
+            return Role.STUDENT
+        case Role.TEACHER:
+            return Role.TEACHER
+        default:
+            return undefined
+    }
 }

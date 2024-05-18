@@ -2,6 +2,13 @@
     import { ref } from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
     import PopUp from '@/components/PopUp.vue'
+    import { Role, getRole } from '@/scripts/verifyRole';
+    import router from '@/router';
+
+    const role = await getRole();
+    if (role != Role.STUDENT) {
+        router.push({ name: 'Profile' })
+    }
     
     const questionStore = useQuestionStore()
     const questions = ref(await questionStore.getQuestions())

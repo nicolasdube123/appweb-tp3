@@ -34,9 +34,9 @@ async function getStudents() : Promise<Array<User>> {
   }
 }
 
-async function isUserWithGoodRole(userId: string, role: string): Promise<boolean> {
+async function getRole(userId: string): Promise<string> {
   const user: User = await getUserById(userId)
-  return user.role === role
+  return user.role
 }
 
 async function createStudent (name: string, email: string, password: string) {
@@ -80,7 +80,7 @@ async function deleteUser (userId: string) {
 export const userService = {
   getUserById,
   getStudents,
-  isUserWithGoodRole,
+  getRole,
   createStudent,
   updatePassword,
   deleteUser

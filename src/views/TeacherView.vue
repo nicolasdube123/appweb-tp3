@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import QuestionColumn from '../components/teacher/QuestionColumn.vue'
     import { useRouter } from 'vue-router'
-    import { isGoodRole, Role } from '@/scripts/verifyRole'
+    import { getRole, Role } from '@/scripts/verifyRole'
     import StudentColumn from '../components/teacher/StudentColumn.vue'
     import { useQuestionStore } from '@/stores/questionStore'
     import { useUserStore } from '@/stores/userStore'
@@ -11,10 +11,10 @@
     const userStore = useUserStore()
     const router = useRouter()
 
-    //TODO
-    /*if (!await isGoodRole(Role.TEACHER)) {
+    const role = await getRole();
+    if (role != Role.TEACHER) {
         router.push({ name: 'Profile' })
-    }*/
+    }
 
     const questions = ref(await questionStore.getQuestions())
     const students = ref(await userStore.getStudents())

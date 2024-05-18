@@ -78,7 +78,6 @@
                 </form>
             </div>
         </li>
-        {{ console.log(props) }}
         <li v-for="(student, index) in props.students" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
                 <button class="btn btn-danger btn-sm" @click="deleteStudent(index)" id="delete">
