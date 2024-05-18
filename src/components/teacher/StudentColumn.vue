@@ -14,6 +14,8 @@
 
     const errorPopUpShown = ref(false)
 
+    const errorPopUpShown = ref(false)
+
     function toggleStudent(index: number) {
         // On modifie seulement le props. Par défaut, les fenêtres d'élèves sont toujours fermées
         props.students[index].open = !props.students[index].open;
@@ -53,6 +55,11 @@
 <template>
     <ul class="list-group mt-3">
         <li class="list-group-item">
+            <PopUp v-if="errorPopUpShown" 
+                @closePopUp="hideErrorPopUp"
+                :title="'Erreur'"
+                :text="'Vérifiez que les champs sont remplis et valides'"
+            />
             <PopUp v-if="errorPopUpShown" 
                 @closePopUp="hideErrorPopUp"
                 :title="'Erreur'"
