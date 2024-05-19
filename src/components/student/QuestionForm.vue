@@ -49,18 +49,18 @@
 <template>
     <div class="w-75 d-flex bg-dark rounded p-3">
         <div class="w-25">
-            <button @click="superHandStore.switchState" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center">
+            <button @click="superHandStore.switchState" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center" id="star-super-hand">
                 <img v-if="!superHandStore.superHand" src="@/assets/star-empty.png" alt="Super-main" class="img-fluid">
                 <img v-if="superHandStore.superHand" src="@/assets/star-full.png" alt="Super-main" class="img-fluid">
             </button>
         </div>
         <div class="w-75 m-2 d-flex">
             <div class="d-flex flex-column w-75">
-                <div class="h-75 p-1 form-floating">
+                <div class="h-75 p-1 form-floating" id="question">
                     <textarea class="form-control h-100" placeholder="Votre question:" id="question-field" v-model="content"></textarea>
                     <label for="question-field">Votre question:</label>
                 </div>
-                <button @click="askQuestion" class="h-25 btn btn-primary m-2">
+                <button @click="askQuestion" class="h-25 btn btn-primary m-2" id="ask-question">
                     Soumettre la {{ superHandStore.superHand ? 'super-' : '' }}question
                 </button>
             </div>
@@ -68,14 +68,14 @@
                 <div class="h-75 d-flex flex-column">
                     <div class="p-2 h-50">
                         <h4 class="text-center text-white">Priorité</h4>
-                        <select class="form-select" v-model="priority">
+                        <select class="form-select" v-model="priority" id="priority">
                             <option value="" disabled>...</option>
                             <option v-for="option in priorities" :key="option.value" :value="option.value">{{ option.label }}</option>
                         </select>
                     </div>
                     <div class="p-2 h-50">
                         <h4 class="text-center text-white">Catégorie</h4>
-                        <select class="form-select" v-model="category">
+                        <select class="form-select" v-model="category" id="category">
                             <option value="" disabled>...</option>
                             <option v-for="option in categories">{{ option }}</option>
                         </select>

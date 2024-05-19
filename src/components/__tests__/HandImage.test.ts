@@ -14,11 +14,10 @@ describe("HandImage.vue", () => {
     
     it("Lorsque la main est levé, la bonne image est affiché", async () => {
         let store = useSuperHandStore()
+        store.switchState()
         let wrapper = mount(HandImage)
 
-        store.switchState()
-
-        expect(wrapper.find("#raised-hand").exists()).toBeTruthy()
+        expect(wrapper.find("#super-raised-hand").exists()).toBeTruthy()
     })
 
     it("Lorsque la main n'est pas levé, la bonne image est affiché", async () => {
