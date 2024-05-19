@@ -6,6 +6,7 @@
     import router from '@/router';
     import { Question } from '@/interfaces/IQuestion';
     import { useAuthStore } from '@/stores/authStore';
+    import HandImage from '@/components/student/HandImage.vue';
 
     const role = await getRole();
     if (role != Role.STUDENT) {
@@ -93,12 +94,7 @@
     <div class="d-flex container flex-column p-5">
         <div class="d-flex">
             <!--HandComponent-->
-            <div class="w-25 d-flex">
-                <div class="w-75 d-flex align-items-center justify-content-center">
-                    <img v-if="!superHand" src="../assets/hand.png" alt="Main levée" class="img-fluid p-2">
-                    <img v-if="superHand" src="../assets/super-hand.png" alt="Super-main levée" class="img-fluid p-2">
-                </div>
-            </div>
+            <HandImage :superHand="superHand"/>
             <!--Hand/-->
             <!--FormComponent-->
             <div class="w-75 d-flex bg-dark rounded p-3">
