@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import { userService } from '../services/userService'
 import { useAuthStore } from './authStore'
 import { Timer } from '@/scripts/timer'
-import Student from '@/interfaces/IStudent'
+import { Student } from '@/interfaces/IStudent'
 
 export const useUserStore = defineStore('userStoreId', () => {
   const email = ref('')
@@ -52,6 +52,11 @@ export const useUserStore = defineStore('userStoreId', () => {
       await refreshStudents()
   }
 
+  async function getStudentNameById(id: string) {
+      const student = await userService.getUserById(id)
+      return student.name
+  }
+
   return { 
     email, 
     name, 
@@ -61,6 +66,7 @@ export const useUserStore = defineStore('userStoreId', () => {
     refreshStudents,
     addStudent,
     removeStudent,
+    getStudentNameById,
     amberAlertShown
   }
 })

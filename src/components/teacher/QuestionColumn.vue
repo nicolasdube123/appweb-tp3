@@ -1,10 +1,13 @@
 <script setup lang="ts">
     import { Question } from '@/interfaces/IQuestion';
     import { useQuestionStore } from '@/stores/questionStore'
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import PopUp from '@/components/PopUp.vue'
+    import { useUserStore } from '@/stores/userStore';
+import { StudentDto } from '@/interfaces/IStudent';
 
     const questionStore = useQuestionStore()
+    const userStore = useUserStore()
 
     const props = defineProps({
         questions: {
@@ -16,6 +19,16 @@
     const category = ref('')
     const errorPopUpShown = ref(false)
 
+    const students = ref<Array<StudentDto>>([])
+
+    onMounted(async () => {
+        for (const question of props.questions) {
+            const id = question.studentId
+            const name = await userStore.getStudentNameById(id)
+            students.value.push({ id, name })
+        }
+    })
+    
     function toggleQuestion(index: number) {
         // On modifie seulement le props. Par défaut, les fenêtres de question sont toujours fermées
         props.questions[index].open = !props.questions[index].open 
@@ -41,6 +54,11 @@
 
     function hideErrorPopUp() {
         errorPopUpShown.value = false
+    }
+
+    function findStudentFromId(id: string) {
+        const student = students.value.find(student => student.id === id);
+        return student ? student.name : 'Inconnu';
     }
 
 </script>
@@ -77,11 +95,11 @@
                 </button>
             </div>
             <div v-if="question.open" class="mt-3">
-                <p id="studentId"><strong>Student ID:</strong> {{ question.studentId }}</p>
-                <p id="content"><strong>Content:</strong> {{ question.content }}</p>
-                <p id="priority"><strong>Priority:</strong> {{ question.priority }}</p>
-                <p id="category"><strong>Category:</strong> {{ question.category }}</p>
-                <p id="isPrivate"><strong>Is Private:</strong> {{ question.private }}</p>
+                <p id="studentId"><strong>Élève:</strong> {{ findStudentFromId(question.studentId) }}</p>
+                <p id="content"><strong>Question:</strong> {{ question.content }}</p>
+                <p id="priority"><strong>Priorité:</strong> {{ question.priority }}</p>
+                <p id="category"><strong>Categorie:</strong> {{ question.category }}</p>
+                <p id="isPrivate"><strong v-if="question.private">Privé</strong><strong v-else>Public</strong></p>
             </div>
         </li>
     </ul>
