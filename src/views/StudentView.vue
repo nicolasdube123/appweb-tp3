@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { onMounted, ref } from 'vue';
+    import { computed, onMounted, ref } from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
     import PopUp from '@/components/PopUp.vue'
     import { Role, getRole } from '@/scripts/verifyRole';
@@ -23,7 +23,7 @@
     //Aussi vérifier si les props sont passées dynamiquement
 
     const authStore = useAuthStore()
-    const userId = ref(authStore.getUserId)
+    const userId = computed(() => authStore.getUserId)
     // On compare le userId à l'attribut studentId des questions pour seulement afficher les questions de l'élève
     const filteredQuestions = ref<Array<Question>>(questions.value.filter(question => question.studentId === userId.value))
 

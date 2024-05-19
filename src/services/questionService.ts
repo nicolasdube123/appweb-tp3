@@ -43,7 +43,7 @@ async function getQuestions(): Promise<Question[]> {
 async function createQuestion (questionDto: QuestionDto) {
   try {
     await axiosAuth.post(API_URL, { 
-      id: id,
+      id: getQuestionId(),
       studentId: questionDto.studentId,
       content: questionDto.content,
       super: questionDto.super,
@@ -57,7 +57,6 @@ async function createQuestion (questionDto: QuestionDto) {
         Authorization: "Bearer "+localStorage.getItem('token')
       }
     })
-    id++
   } catch (error) {
     throw parseAxiosError(error)
   }
@@ -78,7 +77,6 @@ async function deleteQuestion (questionId: string) {
 }
   
 export const questionService = {
-  getQuestionId,
   getQuestions,
   getQuestionById,
   createQuestion,
