@@ -14,8 +14,6 @@
 
     const errorPopUpShown = ref(false)
 
-    const errorPopUpShown = ref(false)
-
     function toggleStudent(index: number) {
         // On modifie seulement le props. Par défaut, les fenêtres d'élèves sont toujours fermées
         props.students[index].open = !props.students[index].open;

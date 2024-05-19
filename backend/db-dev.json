@@ -29,7 +29,7 @@
       "role": "student"
     }
   ],
-  "questions":[
+  "questions": [
     {
       "id": 1,
       "studentId": "2",
@@ -41,30 +41,21 @@
     },
     {
       "id": 2,
-      "studentId": "1",
-      "content": "sdadja",
-      "super": true,
+      "studentId": "2",
+      "content": "aaaaaa",
+      "super": false,
       "priority": 2,
-      "category": "Personnel",
-      "private": false
+      "category": "Matière",
+      "private": true
     },
     {
       "id": 3,
-      "studentId": "1",
-      "content": "sdadja",
-      "super": true,
+      "studentId": "2",
+      "content": "aaaaaaa",
+      "super": false,
       "priority": 2,
-      "category": "Personnel",
-      "private": false
-    },
-    {
-      "id": 4,
-      "studentId": "1",
-      "content": "sdadja",
-      "super": true,
-      "priority": 2,
-      "category": "Personnel",
-      "private": false
+      "category": "Matière",
+      "private": true
     }
   ],
   "comments": [

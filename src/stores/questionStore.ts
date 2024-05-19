@@ -21,9 +21,9 @@ export const useQuestionStore = defineStore('questionStore', () => {
         questions.value = questionsResponse
     }
 
-    async function addQuestion(content: string, superHand: boolean, priority: string, category: string, locked: boolean) {
+    async function addQuestion(userId: string, content: string, superHand: boolean, priority: string, category: string, locked: boolean) {
         const questionDto : QuestionDto = {
-            studentId: '1', //TODO
+            studentId: userId,
             content: content,
             super: superHand,
             priority: priority,
