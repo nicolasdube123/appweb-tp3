@@ -47,6 +47,12 @@ async function createStudent (name: string, email: string, password: string) {
       name: name,
       id: id,
       role: "student"
+    }, {
+      //Pour retirer une quesiton
+      //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
+      headers: {
+        Authorization: "Bearer "+localStorage.getItem('token')
+      }
     })
   } catch (error) {
     throw parseAxiosError(error)
@@ -60,8 +66,12 @@ async function updatePassword (userId: string, newPassword: string) {
     let user: User = await getUserById(userId)
     user.password = newPassword
     
-    await axiosAuth.put(API_URL + "/" + userId, {
-      user
+    await axiosAuth.put(API_URL + "/" + userId, { user }, {
+      //Pour retirer une quesiton
+      //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
+      headers: {
+        Authorization: "Bearer "+localStorage.getItem('token')
+      }
     })
   } catch (error) {
     throw parseAxiosError(error)
@@ -71,7 +81,13 @@ async function updatePassword (userId: string, newPassword: string) {
 
 async function deleteUser (userId: string) {
   try {
-    await axiosAuth.delete(API_URL + "/" + userId)
+    await axiosAuth.delete(API_URL + "/" + userId, {
+      //Pour retirer une quesiton
+      //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
+      headers: {
+        Authorization: "Bearer "+localStorage.getItem('token')
+      }
+    })
   } catch (error) {
     throw parseAxiosError(error)
   }
