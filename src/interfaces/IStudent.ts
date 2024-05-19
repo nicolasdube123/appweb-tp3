@@ -1,13 +1,13 @@
 import { Timer } from "@/scripts/timer";
 
 export interface Student {
-    id: String;
-    name: String;
-    open: Boolean;
+    id: string;
+    name: string;
+    open: boolean;
     timer: Timer;
 }
 
 export interface StudentDto {
-    id: String;
-    name: String;
+    id: string;
+    name: string;
 }

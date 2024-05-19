@@ -6,12 +6,18 @@ import { QuestionDto } from '../interfaces/IQuestion'
 const QUESTION_PATH: string = "/questions"
 const API_URL: string = "http://127.0.0.1:3000" + QUESTION_PATH
 
+let id = 0
 //En incluant les id déjà présent dans la bd, ceci est le premier index disponible
-let id: number = 2
-function getQuestionId(): number {
-  let idToReturn = id
-  id++
-  return idToReturn
+async function getQuestionId() {
+  const questions = await getQuestions()
+  let highestId = 0
+  questions.forEach(question => {
+      if (question.id > highestId) {
+          highestId = question.id
+      }
+  })
+  const newId = highestId + 1
+  id = newId
 }
 
 async function getQuestionById (questionId: string): Promise<Question> {
@@ -42,8 +48,9 @@ async function getQuestions(): Promise<Question[]> {
 
 async function createQuestion (questionDto: QuestionDto) {
   try {
+    await getQuestionId()
     await axiosAuth.post(API_URL, { 
-      id: getQuestionId(),
+      id: id,
       studentId: questionDto.studentId,
       content: questionDto.content,
       super: questionDto.super,
@@ -75,10 +82,16 @@ async function deleteQuestion (questionId: string) {
     throw parseAxiosError(error)
   }
 }
+
+async function getLastQuestion() {
+  const question = await getQuestionById(id.toString())
+  return question
+}
   
 export const questionService = {
   getQuestions,
   getQuestionById,
   createQuestion,
-  deleteQuestion
+  deleteQuestion,
+  getLastQuestion
 }

@@ -3,9 +3,10 @@
     import { useQuestionStore } from '@/stores/questionStore'
     import { useSuperHandStore } from "@/stores/superHandStore"
     import { useAuthStore } from '@/stores/authStore';
+    import { Question } from '@/interfaces/IQuestion';
 
     const emit = defineEmits<{
-        (event:"send", userId: string, content: string, superHand: boolean, priority: string, category: string, locked: boolean):void,
+        (event:"send", question: Question):void,
         (event:"showError"):void
     }>()
     const questionStore = useQuestionStore()
@@ -27,12 +28,12 @@
     const priority = ref('')
     const category = ref('')
 
-    function askQuestion() {
-        if (validateQuestion()) {
-            emit("send", userId.value, content.value, superHandStore.superHand, priority.value, category.value, locked.value)
-        } else {
-            emit("showError")
-        }
+    function clearFields() {
+        superHandStore.superHand = false
+        content.value = ''
+        locked.value = false
+        priority.value = ''
+        category.value = ''
     }
 
     function validateQuestion() : boolean {
@@ -45,6 +46,18 @@
             return false
         } return true
     }
+    
+    async function askQuestion() {
+        if (validateQuestion()) {
+            await questionStore.addQuestion(userId.value, content.value, superHandStore.superHand, priority.value, category.value, locked.value)
+            const question = await questionStore.getLastQuestion()
+            emit("send", question)
+            clearFields()
+        } else {
+            emit("showError")
+        }
+    }
+
 </script>
 <template>
     <div class="w-75 d-flex bg-dark rounded p-3">
@@ -86,7 +99,7 @@
                         <img src="@/assets/locked.png" alt="Privé" class="img-fluid m-4 my-3">
                     </button>
                     <button v-if="!locked" class="btn btn-success d-flex flex-column" @click="locked = !locked" id="unlocked">
-                        <img src="@/assets/unlocked.png" alt="Public" class="img-fluid m-2" id="imgsa">
+                        <img src="@/assets/unlocked.png" alt="Public" class="img-fluid m-2">
                     </button>
                 </div>
             </div>

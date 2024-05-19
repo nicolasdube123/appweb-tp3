@@ -29,6 +29,7 @@
       "role": "student"
     }
   ],
+<<<<<<< HEAD
   "questions":[
     {
       "id":1,
@@ -40,6 +41,9 @@
       "private": false
     }
   ],
+=======
+  "questions": [],
+>>>>>>> da85e13da6a7ac9cfb981c2d58e1086f527f22ee
   "comments": [
     {
       "userId": 1,
