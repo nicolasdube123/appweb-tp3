@@ -25,7 +25,9 @@
     const authStore = useAuthStore()
     const userId = computed(() => authStore.getUserId)
     // On compare le userId à l'attribut studentId des questions pour seulement afficher les questions de l'élève
-    const filteredQuestions = ref<Array<Question>>(questions.value.filter(question => question.studentId === userId.value))
+    const filteredQuestions = computed(() => {
+        return questions.value.filter(question => question.studentId === userId.value);
+    })
 
     const categories = ref<String[]>(questionStore.categories)
     const priorities = [
@@ -45,12 +47,22 @@
     const priority = ref('')
     const category = ref('')
 
-    function askQuestion() {
+    async function askQuestion() {
         if (validateQuestion()) {
-            questionStore.addQuestion(userId.value, content.value, superHand.value, priority.value, category.value, locked.value)
+            await questionStore.addQuestion(userId.value, content.value, superHand.value, priority.value, category.value, locked.value)
+            const question = await questionStore.getLastQuestion()
+            questions.value.push(question)
+            clearFields()
         } else {
             showErrorPopUp()
         }
+    }
+    function clearFields() {
+        superHand.value = false
+        content.value = ''
+        locked.value = false
+        priority.value = ''
+        category.value = ''
     }
 
     function validateQuestion() : boolean {
@@ -73,13 +85,14 @@
     }
 
     function toggleQuestion(index: number) {
-        questions.value[index].open = !questions.value[index].open 
+        filteredQuestions.value[index].open = !filteredQuestions.value[index].open 
     }
 
     function deleteQuestion(index: number) {
-        questions.value.splice(index, 1)
+        filteredQuestions.value.splice(index, 1)
         questionStore.removeQuestion(index)
     }
+
 </script>
 
 <template>
@@ -150,7 +163,7 @@
         <div class="p-5 list-group">
             <ul>
                 <li v-for="(question, index) in filteredQuestions" :key="index" class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
+                    <div class="d-flex justify-content-between align-items-center p-2 rounded" :class="{'bg-dark-subtle': !question.super, 'bg-warning': question.super}">
                         <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(index)">
                             Del
                         </button>
@@ -160,11 +173,10 @@
                         </button>
                     </div>
                     <div v-if="question.open" class="mt-3">
-                        <p id="studentId"><strong>Student ID:</strong> {{ question.studentId }}</p>
-                        <p id="content"><strong>Content:</strong> {{ question.content }}</p>
-                        <p id="priority"><strong>Priority:</strong> {{ question.priority }}</p>
-                        <p id="category"><strong>Category:</strong> {{ question.category }}</p>
-                        <p id="isPrivate"><strong>Is Private:</strong> {{ question.private }}</p>
+                        <p id="content"><strong>Question:</strong> {{ question.content }}</p>
+                        <p id="priority"><strong>Priorité:</strong> {{ question.priority }}</p>
+                        <p id="category"><strong>Categorie:</strong> {{ question.category }}</p>
+                        <p id="isPrivate"><strong v-if="question.private">Privé</strong><strong v-else>Public</strong></p>
                     </div>
                 </li>
             </ul>

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { authService } from '../services/authService'
-//import { userService } from '../services/userService'
 import jwtDecode from 'jwt-decode'
 
 interface DecodedToken {

@@ -36,7 +36,7 @@
     function findStudentFromId(id: string) {
         fetchStudentsComputed.value
         const student = students.value.find(student => student.id === id);
-        return student ? student.name : 'Inconnu';
+        return student ? student.name : 'Loading...';
     }
     
     function toggleQuestion(index: number) {
@@ -90,7 +90,7 @@
             </div>
         </li>
         <li v-for="(question, index) in questions" :key="index" class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
+            <div class="d-flex justify-content-between align-items-center p-2 rounded" :class="{'bg-dark-subtle': !question.super, 'bg-warning': question.super}">
                 <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(question.id)">
                     Del
                 </button>
