@@ -31,6 +31,11 @@ export const useUserStore = defineStore('userStoreId', () => {
     }
   }
 
+  function getUserId() {
+    const authStore = useAuthStore()
+    return authStore.getUserId
+  }
+
   async function refreshStudents() {
       const usersResponse = await userService.getStudents()
       const studentsResponse : Student[] = usersResponse.map(user => ({
@@ -62,6 +67,7 @@ export const useUserStore = defineStore('userStoreId', () => {
     name, 
     onError, 
     getProfile,
+    getUserId,
     students,
     refreshStudents,
     addStudent,

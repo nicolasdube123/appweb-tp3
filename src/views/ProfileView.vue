@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
 import { useUserStore } from '../stores/userStore'
+import Profile from '@/components/Profile.vue'
 
 const userStore = useUserStore()
 
@@ -22,11 +23,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <h1>Profile</h1>
-    <div>Nom: {{ name }}</div>
-    <div>Courriel: {{ email }}</div>
-  </div>
+  <Profile :name="name" :email="email" />
 </template>
 
 <style scoped></style>
