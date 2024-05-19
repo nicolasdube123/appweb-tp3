@@ -94,7 +94,7 @@
     <div class="d-flex container flex-column p-5">
         <div class="d-flex">
             <!--HandComponent-->
-            <HandImage :superHand="superHand"/>
+            <HandImage />
             <!--Hand/-->
             <!--FormComponent-->
             <div class="w-75 d-flex bg-dark rounded p-3">

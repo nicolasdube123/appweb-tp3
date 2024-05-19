@@ -1,9 +1,11 @@
 <script setup lang="ts">
     import { ref } from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
+    import { useSuperHandStore } from "@/stores/superHandStore"
 
     const emit = defineEmits<{
-        (event:"askQuestion"):void
+        (event:"send"):void,
+        (event:"showError"):void
     }>()
     const questionStore = useQuestionStore()
     
@@ -16,18 +18,37 @@
         { value: 5, label: 'P5' }
     ]
 
-    const superHand = ref(false)
+    const superHandStore = useSuperHandStore()
     const content = ref('')
     const locked = ref(false)
     const priority = ref('')
     const category = ref('')
+
+    function askQuestion() {
+        if (validateQuestion()) {
+            emit("send")
+        } else {
+            emit("showError")
+        }
+    }
+
+    function validateQuestion() : boolean {
+        if (content.value.trim().length == 0 
+            || priority.value.length == 0 
+            || priority.value == '...' 
+            || category.value.length == 0 
+            || priority.value == '...') 
+        {
+            return false
+        } return true
+    }
 </script>
 <template>
     <div class="w-75 d-flex bg-dark rounded p-3">
         <div class="w-25">
-            <button @click="superHand = !superHand" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center">
-                <img v-if="!superHand" src="../assets/star-empty.png" alt="Super-main" class="img-fluid">
-                <img v-if="superHand" src="../assets/star-full.png" alt="Super-main" class="img-fluid">
+            <button @click="superHandStore.switchState" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center">
+                <img v-if="!superHandStore.superHand" src="../assets/star-empty.png" alt="Super-main" class="img-fluid">
+                <img v-if="superHandStore.superHand" src="../assets/star-full.png" alt="Super-main" class="img-fluid">
             </button>
         </div>
         <div class="w-75 m-2 d-flex">
@@ -36,8 +57,8 @@
                     <textarea class="form-control h-100" placeholder="Votre question:" id="question-field" v-model="content"></textarea>
                     <label for="question-field">Votre question:</label>
                 </div>
-                <button @click="emit('askQuestion')" class="h-25 btn btn-primary m-2">
-                    Soumettre la {{ superHand ? 'super-' : '' }}question
+                <button @click="emit('send')" class="h-25 btn btn-primary m-2">
+                    Soumettre la {{ superHandStore.superHand ? 'super-' : '' }}question
                 </button>
             </div>
             <div class="d-flex flex-column col">
