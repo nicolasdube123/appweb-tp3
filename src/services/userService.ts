@@ -61,9 +61,10 @@ async function createStudent (name: string, email: string, password: string) {
   id++
 }
 
-async function updatePassword (userId: string, newPassword: string) {
+async function updatePassword (userId: string, name: string, newPassword: string) {
   try {
     let user: User = await getUserById(userId)
+    user.name = name
     user.password = newPassword
     
     await axiosAuth.put(API_URL + "/" + userId, { user }, {

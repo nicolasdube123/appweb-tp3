@@ -31,11 +31,6 @@ export const useUserStore = defineStore('userStoreId', () => {
     }
   }
 
-  function getUserId() {
-    const authStore = useAuthStore()
-    return authStore.getUserId
-  }
-
   async function refreshStudents() {
       const usersResponse = await userService.getStudents()
       const studentsResponse : Student[] = usersResponse.map(user => ({
@@ -50,6 +45,12 @@ export const useUserStore = defineStore('userStoreId', () => {
   async function addStudent(name: string, email: string, password: string) {
       await userService.createStudent(name, email, password)
       await refreshStudents()
+  }
+
+  async function updateUser(name: string, password: string) {
+    const authStore = useAuthStore()
+    const id = authStore.getUserId
+    await userService.updatePassword(id, name, password)
   }
 
   async function removeStudent(id: number) {
@@ -67,10 +68,10 @@ export const useUserStore = defineStore('userStoreId', () => {
     name, 
     onError, 
     getProfile,
-    getUserId,
     students,
     refreshStudents,
     addStudent,
+    updateUser,
     removeStudent,
     getStudentNameById,
     amberAlertShown
