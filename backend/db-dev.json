@@ -24,7 +24,7 @@
     {
       "email": "nicholas@test.com",
       "password": "$2a$10$/U4TD6TdllwpkXLdBzoagepGDpOGcRFTS6VHAnYGNeCKsuhpEWmX2",
-      "name": "Jimmy Gilbert",
+      "name": "Nicolas Dubé",
       "id": 3,
       "role": "student"
     }
@@ -36,7 +36,34 @@
       "content": "Ça marche comment Vue?",
       "super": true,
       "priority": "P1",
-      "category": "Oui",
+      "category": "Matière",
+      "private": false
+    },
+    {
+      "id": 2,
+      "studentId": "1",
+      "content": "sdadja",
+      "super": true,
+      "priority": 2,
+      "category": "Personnel",
+      "private": false
+    },
+    {
+      "id": 3,
+      "studentId": "1",
+      "content": "sdadja",
+      "super": true,
+      "priority": 2,
+      "category": "Personnel",
+      "private": false
+    },
+    {
+      "id": 4,
+      "studentId": "1",
+      "content": "sdadja",
+      "super": true,
+      "priority": 2,
+      "category": "Personnel",
       "private": false
     }
   ],

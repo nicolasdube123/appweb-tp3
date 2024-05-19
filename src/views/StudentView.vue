@@ -46,11 +46,9 @@
     const priority = ref('')
     const category = ref('')
 
-    //TODO: Pour la main levée (super ou non), afficher la valeur de la dernière main levée et non l'état de l'étoile
-
     function askQuestion() {
         if (validateQuestion()) {
-            questionStore.addQuestion(content.value, superHand.value, priority.value, category.value, locked.value)
+            questionStore.addQuestion(userId.value, content.value, superHand.value, priority.value, category.value, locked.value)
         } else {
             showErrorPopUp()
         }

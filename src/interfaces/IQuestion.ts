@@ -1,19 +1,19 @@
 export interface Question {
     id: number,
-    studentId: String,
-    content: String,
-    super: Boolean,
-    priority: String,
-    category: String,
-    private: Boolean,
-    open: Boolean //à retirer plus tard
+    studentId: string,
+    content: string,
+    super: boolean,
+    priority: string,
+    category: string,
+    private: boolean,
+    open: boolean
 }
 
 export interface QuestionDto {
-    studentId: String,
-    content: String,
-    super: Boolean,
-    priority: String,
-    category: String,
-    private: Boolean
+    studentId: string,
+    content: string,
+    super: boolean,
+    priority: string,
+    category: string,
+    private: boolean
 }

@@ -57,10 +57,10 @@ async function createQuestion (questionDto: QuestionDto) {
         Authorization: "Bearer "+localStorage.getItem('token')
       }
     })
+    id++
   } catch (error) {
     throw parseAxiosError(error)
   }
-  id++
 }
 
 async function deleteQuestion (questionId: string) {

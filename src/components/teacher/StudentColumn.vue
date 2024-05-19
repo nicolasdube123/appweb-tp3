@@ -34,6 +34,7 @@
             studentName.value = ''
             studentEmail.value = ''
             studentPassword.value = ''
+            
         } catch {
             showErrorPopUp()
         }
@@ -52,6 +53,11 @@
 <template>
     <ul class="list-group mt-3">
         <li class="list-group-item">
+            <PopUp v-if="errorPopUpShown" 
+                @closePopUp="hideErrorPopUp"
+                :title="'Erreur'"
+                :text="'Vérifiez que les champs sont remplis et valides'"
+            />
             <PopUp v-if="errorPopUpShown" 
                 @closePopUp="hideErrorPopUp"
                 :title="'Erreur'"
