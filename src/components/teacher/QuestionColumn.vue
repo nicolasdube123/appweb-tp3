@@ -1,10 +1,10 @@
 <script setup lang="ts">
     import { Question } from '@/interfaces/IQuestion';
     import { useQuestionStore } from '@/stores/questionStore'
-    import { onMounted, ref } from 'vue';
+    import { computed, onMounted, ref, watch, watchEffect } from 'vue';
     import PopUp from '@/components/PopUp.vue'
     import { useUserStore } from '@/stores/userStore';
-import { StudentDto } from '@/interfaces/IStudent';
+    import { StudentDto } from '@/interfaces/IStudent';
 
     const questionStore = useQuestionStore()
     const userStore = useUserStore()
@@ -21,13 +21,23 @@ import { StudentDto } from '@/interfaces/IStudent';
 
     const students = ref<Array<StudentDto>>([])
 
-    onMounted(async () => {
-        for (const question of props.questions) {
-            const id = question.studentId
-            const name = await userStore.getStudentNameById(id)
-            students.value.push({ id, name })
-        }
+    const fetchStudentsComputed = computed(() => {
+        watchEffect(async () => {
+            const fetchedStudents = await Promise.all(
+                props.questions.map(async (question) => {
+                const name = await userStore.getStudentNameById(question.studentId)
+                return { id: question.studentId.toString(), name }
+                })
+            )
+            students.value = fetchedStudents
+        })
     })
+
+    function findStudentFromId(id: string) {
+        fetchStudentsComputed.value
+        const student = students.value.find(student => student.id === id);
+        return student ? student.name : 'Inconnu';
+    }
     
     function toggleQuestion(index: number) {
         // On modifie seulement le props. Par défaut, les fenêtres de question sont toujours fermées
@@ -56,11 +66,6 @@ import { StudentDto } from '@/interfaces/IStudent';
         errorPopUpShown.value = false
     }
 
-    function findStudentFromId(id: string) {
-        const student = students.value.find(student => student.id === id);
-        return student ? student.name : 'Inconnu';
-    }
-
 </script>
 
 <template>
@@ -84,7 +89,7 @@ import { StudentDto } from '@/interfaces/IStudent';
                 </form>
             </div>
         </li>
-        <li v-for="(question, index) in props.questions" :key="index" class="list-group-item">
+        <li v-for="(question, index) in questions" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
                 <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(question.id)">
                     Del
