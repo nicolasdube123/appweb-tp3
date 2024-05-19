@@ -1,10 +1,11 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { computed, ref } from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
     import { useSuperHandStore } from "@/stores/superHandStore"
+    import { useAuthStore } from '@/stores/authStore';
 
     const emit = defineEmits<{
-        (event:"send"):void,
+        (event:"send", userId: string, content: string, superHand: boolean, priority: string, category: string, locked: boolean):void,
         (event:"showError"):void
     }>()
     const questionStore = useQuestionStore()
@@ -18,6 +19,8 @@
         { value: 5, label: 'P5' }
     ]
 
+    const authStore = useAuthStore()
+    const userId = computed(() => authStore.getUserId)
     const superHandStore = useSuperHandStore()
     const content = ref('')
     const locked = ref(false)
@@ -26,7 +29,7 @@
 
     function askQuestion() {
         if (validateQuestion()) {
-            emit("send")
+            emit("send", userId.value, content.value, superHandStore.superHand, priority.value, category.value, locked.value)
         } else {
             emit("showError")
         }
@@ -47,8 +50,8 @@
     <div class="w-75 d-flex bg-dark rounded p-3">
         <div class="w-25">
             <button @click="superHandStore.switchState" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center">
-                <img v-if="!superHandStore.superHand" src="../assets/star-empty.png" alt="Super-main" class="img-fluid">
-                <img v-if="superHandStore.superHand" src="../assets/star-full.png" alt="Super-main" class="img-fluid">
+                <img v-if="!superHandStore.superHand" src="@/assets/star-empty.png" alt="Super-main" class="img-fluid">
+                <img v-if="superHandStore.superHand" src="@/assets/star-full.png" alt="Super-main" class="img-fluid">
             </button>
         </div>
         <div class="w-75 m-2 d-flex">
@@ -57,7 +60,7 @@
                     <textarea class="form-control h-100" placeholder="Votre question:" id="question-field" v-model="content"></textarea>
                     <label for="question-field">Votre question:</label>
                 </div>
-                <button @click="emit('send')" class="h-25 btn btn-primary m-2">
+                <button @click="askQuestion" class="h-25 btn btn-primary m-2">
                     Soumettre la {{ superHandStore.superHand ? 'super-' : '' }}question
                 </button>
             </div>
