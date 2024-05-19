@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import Student from '@/interfaces/IStudent';
+    import { Student } from '@/interfaces/IStudent';
     import { useUserStore } from '@/stores/userStore';
     import { ref } from 'vue';
     import PopUp from '@/components/PopUp.vue'
