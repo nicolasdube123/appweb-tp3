@@ -77,7 +77,6 @@ async function updatePassword (userId: string, name: string, newPassword: string
   } catch (error) {
     throw parseAxiosError(error)
   }
-
 }
 
 async function deleteUser (userId: string) {

@@ -22,7 +22,7 @@
         <div>Courriel: {{ email }}</div>
         <div>
             <input v-if="role == Role.TEACHER" type="text" name="newName" id="new-name" v-model="name" placeholder="Nouveau nom">
-            <input type="text" name="newPassword" id="new-password" v-model="password" placeholder="Nouveau mot de passe">
+            <input type="password" name="newPassword" id="new-password" v-model="password" placeholder="Nouveau mot de passe">
             <input type="submit" value="Envoyer">
         </div>
     </div>

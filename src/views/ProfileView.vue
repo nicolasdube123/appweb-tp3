@@ -26,8 +26,8 @@ onMounted(async () => {
   }
 })
 
-function updateUser(name: string, password: string) {
-  userStore.updateUser(name, password)
+async function updateUser(name: string, password: string) {
+  await userStore.updateUser(name, password)
 }
 </script>
 
