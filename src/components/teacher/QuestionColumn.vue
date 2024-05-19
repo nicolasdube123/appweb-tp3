@@ -68,7 +68,7 @@
         </li>
         <li v-for="(question, index) in props.questions" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
-                <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(index)">
+                <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(question.id)">
                     Del
                 </button>
                 <h5>Question {{ index + 1 }}</h5>

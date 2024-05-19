@@ -4,13 +4,13 @@
     import { ref } from 'vue';
     import PopUp from '@/components/PopUp.vue'
 
-    const userStore = useUserStore()
     const props = defineProps({
         students : {
             type: Object as () => Array<Student>,
-            required: true
-        }
-    })
+                required: true
+            }
+        })
+    const userStore = useUserStore()
 
     const errorPopUpShown = ref(false)
 

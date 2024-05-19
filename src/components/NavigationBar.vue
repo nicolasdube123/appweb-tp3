@@ -1,28 +1,60 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useAuthStore } from '../stores/authStore'
-import { useUserStore } from '../stores/userStore'
-import { useRouter } from 'vue-router'
-import PopUp from '@/components/PopUp.vue'
+  import { computed, onMounted, ref, watch } from 'vue'
+  import { useAuthStore } from '../stores/authStore'
+  import { useUserStore } from '../stores/userStore'
+  import { useRouter } from 'vue-router'
+  import PopUp from '@/components/PopUp.vue'
+  import { Role, getRole } from '@/scripts/verifyRole'
 
-const authStore = useAuthStore()
-const router = useRouter()
+  const authStore = useAuthStore()
+  const router = useRouter()
 
-const isLoggedIn = computed(() => authStore.isLoggedIn)
-const isStudent = computed(() => authStore.isLoggedInAsTeacher)
+  const isLoggedIn = computed(() => authStore.isLoggedIn)
 
-function logout() {
-  authStore.logout()
-  router.push({
-    name: 'Login'
+  // Le bouton "Se déconnecter" déconnecte l'utilisateur et le redirige vers la page de connexion.
+  function logout() {
+    authStore.logout()
+    router.push({
+      name: 'Login'
+    })
+  }
+
+  // Cette fonction détermine le rôle de l'utilisateur. Elle est utilisée plus tard.
+  const currentRole = ref<Role>()
+  async function checkRoleAndRedirect() {
+    const role = await getRole()
+    if (role) {
+      if (role === Role.TEACHER) {
+        currentRole.value = Role.TEACHER
+        router.push({ name: 'Teacher' })
+      } else if (role === Role.STUDENT) {
+        currentRole.value = Role.STUDENT
+        router.push({ name: 'Student' })
+      }
+    }
+  }
+
+  // À chaque déconnexion/reconnexion, le rôle de l'utilisateur est vérifié et la redirection appropriée est faite.
+  watch(isLoggedIn, (newValue) => {
+    if (newValue) {
+      checkRoleAndRedirect();
+    }
   })
-}
 
-const userStore = useUserStore()
+  // Le rôle de l'utilisateur est également vérifié lorsque la barre de navigation est affichée pour la première fois.
+  onMounted(() => {
+    if (isLoggedIn.value) {
+      checkRoleAndRedirect();
+    }
+  })
 
-function closePopUp() {
-  userStore.amberAlertShown = false
-}
+  // L'alerte Amber est cachée dans la barre de navigation afin de s'assurer de notifier tout le monde (sauf le professeur 
+  // lui-même, voir le v-if ci-dessous).
+  const userStore = useUserStore()
+  function closePopUp() {
+    userStore.amberAlertShown = false
+  }
+
 </script>
 
 <template>
@@ -34,15 +66,8 @@ function closePopUp() {
         <!-- Le ":class={...}" veut dire si la route est égal à 'Home' alors "active" de bootstrap sera ajoutée à l'attribut "class". Ce qui aura comme effet de mettre en évidence l'option du menu. -->
         <RouterLink
           class="nav-link"
-          :class="{ active: $route.name == 'Home' }"
-          :to="{ name: 'Home' }"
-        >
-          Accueil
-        </RouterLink>
-
-        <RouterLink
-          class="nav-link"
           :class="{ active: $route.name == 'Student' }"
+          v-if="currentRole == Role.STUDENT && isLoggedIn"
           :to="{ name: 'Student' }"
         >
           Étudiant
@@ -50,6 +75,7 @@ function closePopUp() {
         <RouterLink
           class="nav-link"
           :class="{ active: $route.name == 'Teacher' }"
+          v-if="currentRole == Role.TEACHER && isLoggedIn"
           :to="{ name: 'Teacher' }"
         >
           Professeur
@@ -83,7 +109,7 @@ function closePopUp() {
     </div>
   </nav>
   </Suspense>
-  <PopUp v-if="userStore.amberAlertShown && isStudent" 
+  <PopUp v-if="userStore.amberAlertShown && currentRole != Role.TEACHER" 
     @closePopUp="closePopUp"
     :title="'ALERTE AMBER'"
   />

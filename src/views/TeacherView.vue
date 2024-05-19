@@ -1,23 +1,40 @@
 <script setup lang="ts">
     import QuestionColumn from '../components/teacher/QuestionColumn.vue'
     import { useRouter } from 'vue-router'
-    import { isGoodRole, Role } from '@/scripts/verifyRole'
+    import { getRole, Role } from '@/scripts/verifyRole'
     import StudentColumn from '../components/teacher/StudentColumn.vue'
     import { useQuestionStore } from '@/stores/questionStore'
     import { useUserStore } from '@/stores/userStore'
-    import { ref } from 'vue'
+    import { onMounted, ref } from 'vue'
+    import { Question } from '@/interfaces/IQuestion'
+    import Student from '@/interfaces/IStudent'
 
     const questionStore = useQuestionStore()
     const userStore = useUserStore()
     const router = useRouter()
 
-    //TODO
-    /*if (!await isGoodRole(Role.TEACHER)) {
+    const role = await getRole();
+    if (role != Role.TEACHER) {
         router.push({ name: 'Profile' })
-    }*/
+    }
 
-    const questions = ref(await questionStore.getQuestions())
-    const students = ref(await userStore.getStudents())
+    const questions = ref<Array<Question>>([])
+    onMounted(async () => {
+        await questionStore.refreshQuestions()
+        questions.value = questionStore.questions
+    })
+    //TODO:
+    //Manque à tester si dynamique lorsqu'on ajoute/supprime à questionStore.questions
+    //Aussi vérifier si les props sont passées dynamiquement
+
+    const students = ref<Array<Student>>([])
+    onMounted(async () => {
+        await userStore.refreshStudents()
+        students.value = userStore.students
+    })
+    //TODO:
+    //Manque à tester si dynamique lorsqu'on ajoute/supprime à userStore.students
+    //Aussi vérifier si les props sont passées dynamiquement
 
     function sendAmberAlert() {
         userStore.amberAlertShown = true

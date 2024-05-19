@@ -6,6 +6,7 @@ import { QuestionDto } from '@/interfaces/IQuestion'
 
 export const useQuestionStore = defineStore('questionStore', () => {
     const categories = ref<Array<String>>(["Matière", "Personnel"])
+    const questions = ref<Array<Question>>([])
     
     function addCategory(categoryToAdd: string) {
         categories.value.push(categoryToAdd)
@@ -15,8 +16,9 @@ export const useQuestionStore = defineStore('questionStore', () => {
         categories.value = categories.value.filter(category => category!== categoryToRemove)
     }
 
-    async function getQuestions() : Promise<Question[]> {
-        return await questionService.getQuestions()
+    async function refreshQuestions()  {
+        const questionsResponse = await questionService.getQuestions()
+        questions.value = questionsResponse
     }
 
     async function addQuestion(content: string, superHand: boolean, priority: string, category: string, locked: boolean) {
@@ -29,11 +31,13 @@ export const useQuestionStore = defineStore('questionStore', () => {
             private: locked
         }
         await questionService.createQuestion(questionDto)
+        await refreshQuestions()
     }
 
     async function removeQuestion(questionToRemove : number) {
         await questionService.deleteQuestion(questionToRemove.toString())
+        await refreshQuestions()
     }
 
-  return {addCategory, removeCategory, categories, getQuestions, addQuestion, removeQuestion }
+  return {addCategory, removeCategory, categories, questions, refreshQuestions, addQuestion, removeQuestion }
 })

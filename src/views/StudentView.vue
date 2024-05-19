@@ -1,10 +1,31 @@
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { onMounted, ref } from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
     import PopUp from '@/components/PopUp.vue'
+    import { Role, getRole } from '@/scripts/verifyRole';
+    import router from '@/router';
+    import { Question } from '@/interfaces/IQuestion';
+    import { useAuthStore } from '@/stores/authStore';
+
+    const role = await getRole();
+    if (role != Role.STUDENT) {
+        router.push({ name: 'Profile' })
+    }
     
     const questionStore = useQuestionStore()
-    const questions = ref(await questionStore.getQuestions())
+    const questions = ref<Array<Question>>([])
+    onMounted(async () => {
+        await questionStore.refreshQuestions()
+        questions.value = questionStore.questions
+    })
+    //TODO:
+    //Manque à tester si dynamique lorsqu'on ajoute/supprime à questionStore.questions
+    //Aussi vérifier si les props sont passées dynamiquement
+
+    const authStore = useAuthStore()
+    const userId = ref(authStore.getUserId)
+    // On compare le userId à l'attribut studentId des questions pour seulement afficher les questions de l'élève
+    const filteredQuestions = ref<Array<Question>>(questions.value.filter(question => question.studentId === userId.value))
 
     const categories = ref<String[]>(questionStore.categories)
     const priorities = [
@@ -130,7 +151,7 @@
         <!--Questions-->
         <div class="p-5 list-group">
             <ul>
-                <li v-for="(question, index) in questions" :key="index" class="list-group-item">
+                <li v-for="(question, index) in filteredQuestions" :key="index" class="list-group-item">
                     <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
                         <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(index)">
                             Del

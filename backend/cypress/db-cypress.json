@@ -2,9 +2,17 @@
   "users": [
     {
       "email": "mon@courriel.com",
-      "password": "$2a$10$WoVaR5cZ2CaImTsXvAglpOUcODx5MODtZR7KSnxcLTL2kg3HVOQIa",
+      "password": "$2a$10$a4f1fftiIrX5YdcIB0ckZ.vKdibL1JwMPEpEOz26PWE79keojaIH2",
       "name": "Bruce Lee",
-      "id": 1
+      "id": 1,
+      "role": "teacher"
+    },
+    {
+      "email": "test@test.com",
+      "password": "$2a$10$4o./DErDFTn9Oi4QR1fh7e9KKiiTDhU2EgqAp05vpRy5um6bcziHi",
+      "name": "Jean Guy",
+      "id": 2,
+      "role": "student"
     }
   ],
   "comments": []
