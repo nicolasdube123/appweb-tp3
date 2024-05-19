@@ -29,23 +29,14 @@
       "role": "student"
     }
   ],
-  "questions": [
+  "questions":[
     {
-      "id": 1,
+      "id":1,
       "studentId": "2",
       "content": "Ça marche comment Vue?",
       "super": true,
       "priority": "P1",
       "category": "Oui",
-      "private": false
-    },
-    {
-      "id": 3,
-      "studentId": "2",
-      "content": "Question take 2 electric boogaloo",
-      "super": true,
-      "priority": 1,
-      "category": "Personnel",
       "private": false
     }
   ],

@@ -50,8 +50,8 @@
     <div class="w-75 d-flex bg-dark rounded p-3">
         <div class="w-25">
             <button @click="superHandStore.switchState" class="btn btn-warning m-2 my-4 p-2 d-flex align-items-center justify-content-center" id="star-super-hand">
-                <img v-if="!superHandStore.superHand" src="@/assets/star-empty.png" alt="Super-main" class="img-fluid">
-                <img v-if="superHandStore.superHand" src="@/assets/star-full.png" alt="Super-main" class="img-fluid">
+                <img v-if="!superHandStore.superHand" src="@/assets/star-empty.png" alt="Super-main" class="img-fluid" id="empty-star">
+                <img v-if="superHandStore.superHand" src="@/assets/star-full.png" alt="Super-main" class="img-fluid" id="full-star">
             </button>
         </div>
         <div class="w-75 m-2 d-flex">
@@ -69,24 +69,24 @@
                     <div class="p-2 h-50">
                         <h4 class="text-center text-white">Priorité</h4>
                         <select class="form-select" v-model="priority" id="priority">
-                            <option value="" disabled>...</option>
+                            <option value="" disabled selected>...</option>
                             <option v-for="option in priorities" :key="option.value" :value="option.value">{{ option.label }}</option>
                         </select>
                     </div>
                     <div class="p-2 h-50">
                         <h4 class="text-center text-white">Catégorie</h4>
                         <select class="form-select" v-model="category" id="category">
-                            <option value="" disabled>...</option>
+                            <option value="" disabled selected>...</option>
                             <option v-for="option in categories">{{ option }}</option>
                         </select>
                     </div>
                 </div>
                 <div class="p-2 h-25 h-auto">
-                    <button v-if="locked" class="btn btn-danger d-flex flex-column" @click="locked = !locked">
-                        <img src="../assets/locked.png" alt="Privé" class="img-fluid m-4 my-3">
+                    <button v-if="locked" class="btn btn-danger d-flex flex-column" @click="locked = !locked" id="locked">
+                        <img src="@/assets/locked.png" alt="Privé" class="img-fluid m-4 my-3">
                     </button>
-                    <button v-if="!locked" class="btn btn-success d-flex flex-column" @click="locked = !locked">
-                        <img src="../assets/unlocked.png" alt="Public" class="img-fluid m-2">
+                    <button v-if="!locked" class="btn btn-success d-flex flex-column" @click="locked = !locked" id="unlocked">
+                        <img src="@/assets/unlocked.png" alt="Public" class="img-fluid m-2" id="imgsa">
                     </button>
                 </div>
             </div>

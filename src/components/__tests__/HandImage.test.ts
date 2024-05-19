@@ -21,7 +21,6 @@ describe("HandImage.vue", () => {
     })
 
     it("Lorsque la main n'est pas levé, la bonne image est affiché", async () => {
-        let store = useSuperHandStore()
         let wrapper = mount(HandImage)
 
         expect(wrapper.find("#raised-hand").exists()).toBeTruthy()

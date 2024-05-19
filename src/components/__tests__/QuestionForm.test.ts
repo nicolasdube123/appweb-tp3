@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { DOMWrapper, mount } from '@vue/test-utils'
 import QuestionForm from '../student/QuestionForm.vue'
 import { setActivePinia, createPinia } from 'pinia'
+import { useSuperHandStore } from '@/stores/superHandStore'
 
 describe("QuestionForm.vue", () => {
     beforeEach(() => {
@@ -10,6 +11,7 @@ describe("QuestionForm.vue", () => {
         // without having to pass it to it: `useStore(pinia)`
         setActivePinia(createPinia())
     })
+
     it("Les entrants existents", async () => {
         let wrapper = mount(QuestionForm)   
 
@@ -24,5 +26,38 @@ describe("QuestionForm.vue", () => {
         expect(askQuestionButton.exists()).toBeTruthy()
         expect(priorityList.exists()).toBeTruthy()
         expect(categoryList.exists()).toBeTruthy()
+    })
+
+    it("Par défaut, les entrants ont leur valeur par défaut", async () => {
+        let wrapper = mount(QuestionForm)
+        let superHandButton = wrapper.find("#empty-star")
+        let priority = wrapper.find("#priority")
+        let category = wrapper.find("#category")
+        let unlocked = wrapper.find("#unlocked")
+
+        expect(superHandButton.exists()).toBeTruthy()
+        expect(priority.text()).toContain("...")
+        expect(category.text()).toContain("...")
+        expect(unlocked.exists()).toBeTruthy()
+    })
+
+    it("Quand les valeurs changent, les entrant ont leur valeur changé", async () => {
+        let store = useSuperHandStore()
+        store.switchState()
+        let wrapper = mount(QuestionForm)
+
+        let superHandButton = wrapper.find("#full-star")
+        
+        await wrapper.find("#priority").setValue("P1")
+        wrapper.vm.$nextTick()
+        let priority = wrapper.find("#priority")
+
+        await wrapper.find("#category").setValue("Personnel")
+        wrapper.vm.$nextTick()
+        let category = wrapper.find("#category")
+
+        expect(superHandButton.exists()).toBeTruthy()
+        expect(priority.text()).toContain("P1")
+        expect(category.text()).toContain("Personnel")
     })
 })
