@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { DOMWrapper, mount } from '@vue/test-utils'
+import { DOMWrapper, flushPromises, mount } from '@vue/test-utils'
 import QuestionForm from '../student/QuestionForm.vue'
 import { setActivePinia, createPinia } from 'pinia'
 import { useSuperHandStore } from '@/stores/superHandStore'
@@ -59,5 +59,13 @@ describe("QuestionForm.vue", () => {
         expect(superHandButton.exists()).toBeTruthy()
         expect(priority.text()).toContain("P1")
         expect(category.text()).toContain("Personnel")
+    })
+
+    it("Quand le formulaire est envoyé, avec une question vide, une erreur est emitted", async () => {
+        let wrapper = mount(QuestionForm)
+
+        wrapper.find("#ask-question").trigger("click")
+
+        expect(wrapper.emitted("showError")).toBeTruthy()
     })
 })
