@@ -1,39 +1,76 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useAuthStore } from '../stores/authStore'
-import { useRouter } from 'vue-router'
+  import { computed, onMounted, ref, watch, watchEffect } from 'vue'
+  import { useAuthStore } from '../stores/authStore'
+  import { useUserStore } from '../stores/userStore'
+  import { useRouter } from 'vue-router'
+  import PopUp from '@/components/PopUp.vue'
+  import { Role, getRole } from '@/scripts/verifyRole'
 
-const authStore = useAuthStore()
-const router = useRouter()
+  const authStore = useAuthStore()
+  const router = useRouter()
 
-const isLoggedIn = computed(() => authStore.isLoggedIn)
+  const isLoggedIn = computed(() => authStore.isLoggedIn)
 
-function logout() {
-  authStore.logout()
-  router.push({
-    name: 'Login'
+  // Le bouton "Se déconnecter" déconnecte l'utilisateur et le redirige vers la page de connexion.
+  function logout() {
+    authStore.logout()
+    router.push({
+      name: 'Login'
+    })
+  }
+
+  // Cette fonction détermine le rôle de l'utilisateur. Elle est utilisée plus tard.
+  const currentRole = ref<Role>()
+  async function checkRoleAndRedirect() {
+    const role = await getRole()
+    if (role) {
+      if (role === Role.TEACHER) {
+        currentRole.value = Role.TEACHER
+        router.push({ name: 'Teacher' })
+      } else if (role === Role.STUDENT) {
+        currentRole.value = Role.STUDENT
+        router.push({ name: 'Student' })
+      }
+    }
+  }
+
+  // À chaque déconnexion/reconnexion, le rôle de l'utilisateur est vérifié et la redirection appropriée est faite.
+  watch(isLoggedIn, (newValue) => {
+    if (newValue) {
+      checkRoleAndRedirect();
+    }
   })
-}
+
+  // Le rôle de l'utilisateur est également vérifié lorsque la barre de navigation est affichée pour la première fois.
+  onMounted(() => {
+    if (isLoggedIn.value) {
+      checkRoleAndRedirect();
+    }
+  })
 </script>
 
 <template>
+  <Suspense>
+
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
       <div class="navbar-nav mr-auto">
-        <!-- Le ":class={...}" veut dire si la route est égal à 'Home' alors "active" de bootstrap sera ajoutée à l'attribut "class". Ce qui aura comme effet de mettre en évidence l'option du menu. -->
         <RouterLink
           class="nav-link"
-          :class="{ active: $route.name == 'Home' }"
-          :to="{ name: 'Home' }"
+          :class="{ active: $route.name == 'Student' }"
+          v-if="currentRole == Role.STUDENT && isLoggedIn"
+          :to="{ name: 'Student' }"
         >
-          Accueil
+          Étudiant
         </RouterLink>
         <RouterLink
           class="nav-link"
-          :class="{ active: $route.name == 'About' }"
-          :to="{ name: 'About' }"
+          :class="{ active: $route.name == 'Teacher' }"
+          v-if="currentRole == Role.TEACHER && isLoggedIn"
+          :to="{ name: 'Teacher' }"
+          id="teacher"
         >
-          À propos
+          Professeur
         </RouterLink>
 
         <!-- La page Profile n'est accessible que si l'utilisateur est connecté (v-if). Voir la propriété calculée isLoggedIn() qui retourne la valeur de la propriété isLoggedIn du store. -->
@@ -42,6 +79,7 @@ function logout() {
           :class="{ active: $route.name == 'Profile' }"
           v-if="isLoggedIn"
           :to="{ name: 'Profile' }"
+          id="profile"
         >
           Profile
         </RouterLink>
@@ -56,6 +94,7 @@ function logout() {
             class="nav-link"
             :class="{ active: $route.name == 'Login' }"
             :to="{ name: 'Login' }"
+            id="login"
           >
             Connexion
           </RouterLink>
@@ -63,4 +102,5 @@ function logout() {
       </div>
     </div>
   </nav>
+  </Suspense>
 </template>

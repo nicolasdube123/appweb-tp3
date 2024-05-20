@@ -1,31 +1,53 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
-import { useProfileStore } from '../stores/profileStore'
+  import { onMounted, computed, ref } from 'vue'
+  import { useUserStore } from '../stores/userStore'
+  import { Role, getRole } from '@/scripts/verifyRole'
 
-const profileStore = useProfileStore()
+  const userStore = useUserStore()
 
-const name = computed(() => profileStore.name)
-const email = computed(() => profileStore.email)
-const onError = computed(() => profileStore.onError)
+  const name = computed(() => userStore.name)
+  const email = computed(() => userStore.email)
 
-onMounted(async () => {
-  try {
-    await profileStore.getProfile()
-    if (onError.value) {
-      // Utilisation d'une boîte de dialogue au lieu de 'confirm'
-      confirm("Une erreur s'est produite lors de la récupération du profil de l'utilisateur.")
+  const formName = ref('')
+  const formPassword = ref('')
+
+  let role = await computed(() => getRole()).value
+
+  const onError = computed(() => userStore.onError)
+
+  onMounted(async () => {
+    try {
+      await userStore.getProfile()
+      if (onError.value) {
+        // Utilisation d'une boîte de dialogue au lieu de 'confirm'
+        confirm("Une erreur s'est produite lors de la récupération du profil de l'utilisateur.")
+      }
+    } catch (error) {
+      confirm("Erreur critique lors de l'accès au store.")
     }
-  } catch (error) {
-    confirm("Erreur critique lors de l'accès au store.")
+  })
+
+  async function updateUser(name: string, password: string) {
+    await userStore.updateUser(name, password)
+    formName.value = ''
+    formPassword.value = ''
   }
-})
 </script>
 
 <template>
-  <div>
+  <div class="container m-4 d-flex flex-column">
     <h1>Profile</h1>
-    <div>Nom: {{ name }}</div>
-    <div>Courriel: {{ email }}</div>
+    <div class="container m-4">
+      <h3>Informations:</h3>
+      <div>Nom: {{ name }}</div>
+      <div>Courriel: {{ email }}</div>
+      <div class="pt-4">
+        <h3>Changer le mot de passe:</h3>
+        <input v-if="role == Role.TEACHER" type="text" name="newName" id="new-name" v-model="formName" class="form-control w-25" placeholder="Nouveau nom">
+        <input type="password" name="newPassword" id="new-password" v-model="formPassword" class="form-control w-25" placeholder="Nouveau mot de passe">
+        <button class="btn btn-primary w-25 mt-2" @click="updateUser(formName, formPassword)">Envoyer</button>
+    </div>
+    </div>
   </div>
 </template>
 

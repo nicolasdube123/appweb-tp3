@@ -9,7 +9,7 @@ const axiosAuth = axios.create()
 // Ici, l'intercepteur ajoute, si l'utilisateur est connecté, le token d'authentification à la requête.
 axiosAuth.interceptors.request.use(config => {
   const authstore = useAuthStore()
-  if (authstore.isLoggedIn) {
+  if (authstore.isLoggedInAsStudent) {
     if (authstore.isTokenExpired) {
       authstore.refreshToken()
     }
