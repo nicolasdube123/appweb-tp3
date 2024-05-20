@@ -71,19 +71,30 @@ describe('Récits utilisateur', () => {
     cy.login(studentUser.email, studentUser.password)
     
   })
+
+  it('je peux poser une question en tant qu\'étudiant', () => {
+    cy.login(studentUser.email, studentUser.password)
+    cy.wait(500)
+
+    cy.get("#question-field").type("Pourquoi?")
+    cy.get("#priority").select("P3")
+    cy.get("#category").select("Personnel")
+    
+    cy.contains(/question/i)
+  })
   
   it('je peux changer de mot de passe en tant qu\'étudiant - version 2', () => {
     // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
     cy.login(studentUser.email, studentUser.password)
+    cy.wait(1000)
     
     cy.contains(/Profile/i).click()
-    cy.wait(500)
-    cy.reload()
-
+    cy.wait(1000)
+    
     cy.get('input[name=newPassword]').type("nouveauMotDePasse")
-
+    
   })
-
+  
   it('je peux me connecter en tant que professeur - version 1 ', () => {
     cy.visit('/login')
     
@@ -100,6 +111,39 @@ describe('Récits utilisateur', () => {
     // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
     cy.login(teacherUser.email, teacherUser.password)
   })
+  
+  it("je peux créer un étudiant en tant que professeur", () => {
+    cy.login(teacherUser.email, teacherUser.password)
+    cy.wait(500)
+    
+    
+
+    cy.contains(/Ajouter/i)
+  })
+
+  it("je peux supprimer un étudiant en tant que professeur", () => {
+    cy.login(teacherUser.email, teacherUser.password)
+    cy.wait(500)
+    
+    cy.get("#name-student").type("Jean")
+    cy.get("#email").type("e@email")
+    cy.get("#password").type("oui")
+
+    cy.contains(/Del/i)
+  })
+  
+  it('je peux changer de nom et de mot de passe en tant que professeur - version 2', () => {
+    // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
+    cy.login(teacherUser.email, teacherUser.password)
+      cy.wait(1000)
+      
+      cy.contains(/Profile/i).click()
+      cy.wait(1000)
+  
+      cy.get('input[name=newName]').type("Gepard")
+      cy.get('input[name=newPassword]').type("nouveauMotDePasse")
+  
+    })
 
   it('je peux me déconnecter', () => {
     cy.login(teacherUser.email, teacherUser.password)
@@ -110,11 +154,20 @@ describe('Récits utilisateur', () => {
     cy.contains(/connexion/i)
   })
 
+  it('je peux me déconnecter', () => {
+    cy.login(studentUser.email, studentUser.password)
+    cy.wait(500)
+
+    cy.contains(/déconnecter/i).click()
+
+    cy.contains(/connexion/i)
+  })
+
   it('je peux voir mon profil', () => {
     cy.login(teacherUser.email, teacherUser.password)
     cy.reload()
-    cy.wait(500)
-    cy.reload()
+    cy.wait(1000)
+    //cy.reload()
     
     cy.contains(/Profile/i).click()
 

@@ -2,14 +2,14 @@
   "users": [
     {
       "email": "mon@courriel.com",
-      "password": "$2a$10$IqmN5AosjkMPTJlQ4E65TuVD2UeNr0fY7b5K5kc49kpgI7MkQ1mRa",
+      "password": "$2a$10$SNBqwWYBQl0hRoezZiZ55OFMrnKcgEcZXV97K7EboVbSOoLFYDDlC",
       "name": "Bruce Lee",
       "id": 1,
       "role": "teacher"
     },
     {
       "email": "test@test.com",
-      "password": "$2a$10$pRQBppxDOzk3qUh0FlW6WOQ3bpvcME5v0PAHcsp7N9MkxmGZB3lNW",
+      "password": "$2a$10$sWHN2Xov54tI7/ydTRlpHuQcl06V3kzzQhpIHdAgYAffzMe5S0bge",
       "name": "Jean Guy",
       "id": 2,
       "role": "student"

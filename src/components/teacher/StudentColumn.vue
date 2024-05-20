@@ -73,7 +73,7 @@
                 <form>
                     <div class="form-group my-3">
                         <label for="name">Nom de l'élève:</label>
-                        <input type="text" class="form-control" id="name" v-model="studentName">
+                        <input type="text" class="form-control" id="name-student" v-model="studentName">
                     </div>
                     <div class="form-group my-3">
                         <label for="email">Courriel:</label>
