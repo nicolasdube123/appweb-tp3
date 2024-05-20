@@ -68,6 +68,7 @@
           :class="{ active: $route.name == 'Teacher' }"
           v-if="currentRole == Role.TEACHER && isLoggedIn"
           :to="{ name: 'Teacher' }"
+          id="teacher"
         >
           Professeur
         </RouterLink>
@@ -78,6 +79,7 @@
           :class="{ active: $route.name == 'Profile' }"
           v-if="isLoggedIn"
           :to="{ name: 'Profile' }"
+          id="profile"
         >
           Profile
         </RouterLink>
@@ -92,6 +94,7 @@
             class="nav-link"
             :class="{ active: $route.name == 'Login' }"
             :to="{ name: 'Login' }"
+            id="login"
           >
             Connexion
           </RouterLink>

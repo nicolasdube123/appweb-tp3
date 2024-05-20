@@ -69,7 +69,7 @@ describe('QuestionColumn.vue', () => {
         expect(isPrivate.text()).toContain(question.private)
     })
     
-    it ("Lors", async () => {
+    it ("Lorsque toggled, le bouton devient -", async () => {
         let wrapper = mount(QuestionColumn, {
             propsData: { 
                 questions: arrayQuestion
