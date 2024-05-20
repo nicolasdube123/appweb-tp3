@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { Question } from '@/interfaces/IQuestion';
     import { useQuestionStore } from '@/stores/questionStore'
-    import { computed, onMounted, ref, watch, watchEffect } from 'vue';
+    import { computed, ref, watchEffect } from 'vue';
     import PopUp from '@/components/PopUp.vue'
     import { useUserStore } from '@/stores/userStore';
     import { StudentDto } from '@/interfaces/IStudent';

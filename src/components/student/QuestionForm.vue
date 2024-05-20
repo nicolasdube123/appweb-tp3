@@ -1,14 +1,14 @@
 <script setup lang="ts">
-    import { computed, ref } from 'vue';
+    import { computed, ref, defineEmits} from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
     import { useSuperHandStore } from "@/stores/superHandStore"
     import { useAuthStore } from '@/stores/authStore';
-    import { Question } from '@/interfaces/IQuestion';
 
     const emit = defineEmits<{
-        (event:"send", question: Question):void,
-        (event:"showError"):void
+        send: [userId:string, content: string, superHand: boolean, priority: string, category: string, locked: boolean];
+        showError: [];
     }>()
+
     const questionStore = useQuestionStore()
     
     const categories = ref<String[]>(questionStore.categories)
@@ -49,9 +49,7 @@
     
     async function askQuestion() {
         if (validateQuestion()) {
-            await questionStore.addQuestion(userId.value, content.value, superHandStore.superHand, priority.value, category.value, locked.value)
-            const question = await questionStore.getLastQuestion()
-            emit("send", question)
+            emit("send", userId.value, content.value, superHandStore.superHand, priority.value, category.value, locked.value )
             clearFields()
         } else {
             emit("showError")

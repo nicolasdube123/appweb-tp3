@@ -39,10 +39,5 @@ export const useQuestionStore = defineStore('questionStore', () => {
         await refreshQuestions()
     }
 
-    async function getLastQuestion() {
-        const question = await questionService.getLastQuestion()
-        return question
-    }
-
-  return {addCategory, removeCategory, categories, questions, refreshQuestions, addQuestion, removeQuestion, getLastQuestion }
+  return {addCategory, removeCategory, categories, questions, refreshQuestions, addQuestion, removeQuestion }
 })
