@@ -89,7 +89,7 @@
                 <button class="btn btn-danger btn-sm" @click="deleteStudent(parseInt(student.id))" id="delete">
                     Del
                 </button>
-                <h5>{{ student.name }}</h5>
+                <h5 id="student-name">{{ student.name }}</h5>
                 <button class="btn btn-primary btn-sm" @click="toggleStudent(index)" id="toggle">
                     {{ student.open ? '-' : '+' }}
                 </button>

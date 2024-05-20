@@ -69,20 +69,33 @@ describe('Récits utilisateur', () => {
   it('je peux me connecter en tant qu\'étudiant - version 2', () => {
     // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
     cy.login(studentUser.email, studentUser.password)
+    
+  })
+  
+  it('je peux changer de mot de passe en tant qu\'étudiant - version 2', () => {
+    // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
+    cy.login(studentUser.email, studentUser.password)
+    
+    cy.contains(/Profile/i).click()
+    cy.wait(500)
+    cy.reload()
+
+    cy.get('input[name=newPassword]').type("nouveauMotDePasse")
+
   })
 
   it('je peux me connecter en tant que professeur - version 1 ', () => {
     cy.visit('/login')
-
+    
     // On utilise .get pour sélectionner dans le DOM un élément input dont l'attribut name est email-input. Ensuite, .type est utilisé pour saisir du texte dans cet élément.
     cy.get('input[name=email-input]').type(teacherUser.email)
     cy.get('input[name=password-input]').type(teacherUser.password)
     // On utilise .get pour sélectionner dans le DOM un élément bonton dont l'attribut type est submit). Ensuite, .click est utilisé pour cliquer sur cet élément.
     cy.get('button[type=submit]').click()
-
+    
     cy.contains(/déconnecter/i)
   })
-
+  
   it('je peux me connecter en tant que professeur - version 2', () => {
     // Ici on utilise la commande login qui est définie dans le fichier cypress/support/commands.js. Cette commande est disponible dans tous les tests et évite de répéter le code de connexion. Cette version est plus courte et plus lisible.
     cy.login(teacherUser.email, teacherUser.password)
@@ -99,8 +112,10 @@ describe('Récits utilisateur', () => {
 
   it('je peux voir mon profil', () => {
     cy.login(teacherUser.email, teacherUser.password)
+    cy.reload()
     cy.wait(500)
-
+    cy.reload()
+    
     cy.contains(/Profile/i).click()
 
     cy.contains(teacherUser.name)
