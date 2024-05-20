@@ -1,41 +1,42 @@
 <script setup lang="ts">
-    import { computed, onMounted, ref, triggerRef } from 'vue';
-    import { useQuestionStore } from '@/stores/questionStore'
+    import { computed, onMounted, ref, triggerRef, watchEffect } from 'vue'
     import PopUp from '@/components/PopUp.vue'
-    import { Role, getRole } from '@/scripts/verifyRole';
-    import router from '@/router';
-    import { Question } from '@/interfaces/IQuestion';
-    import { useAuthStore } from '@/stores/authStore';
-    import HandImage from '@/components/student/HandImage.vue';
-    import QuestionForm from '@/components/student/QuestionForm.vue';
+    import { Role, getRole } from '@/scripts/verifyRole'
+    import router from '@/router'
+    import { Question } from '@/interfaces/IQuestion'
+    import HandImage from '@/components/student/HandImage.vue'
+    import QuestionForm from '@/components/student/QuestionForm.vue'
+    import { useQuestionStore } from '@/stores/questionStore'
+    import StudentQuestions from '@/components/student/StudentQuestions.vue'
 
     const role = await getRole();
     if (role != Role.STUDENT) {
         router.push({ name: 'Profile' })
     }
-    
-    const questionStore = useQuestionStore()
-    const questions = ref<Array<Question>>([])
-    onMounted(async () => {
-        await questionStore.refreshQuestions()
-        questions.value = questionStore.questions
-    })
-    //TODO:
-    //Manque à tester si dynamique lorsqu'on ajoute/supprime à questionStore.questions
-    //Aussi vérifier si les props sont passées dynamiquement
 
-    const authStore = useAuthStore()
-    const userId = computed(() => authStore.getUserId)
-    // On compare le userId à l'attribut studentId des questions pour seulement afficher les questions de l'élève
-    const filteredQuestions = computed(() => {
-        return questions.value.filter(question => question.studentId === userId.value);
+    const questionStore = useQuestionStore()
+    const questions = ref<Question[]>([]);
+
+    async function refreshQuestions() {
+        await questionStore.refreshQuestions();
+        questions.value = questionStore.questions;
+    }
+
+    watchEffect(() => {
+        refreshQuestions();
     })
+
+    async function askQuestion(userId: string, content: string, superHand: boolean, priority: string, category: string, locked: boolean) {
+        await questionStore.addQuestion(userId, content, superHand, priority, category, locked)
+        refreshQuestions()
+    }
+
+    async function deleteQuestion(index: number) {
+        await questionStore.removeQuestion(index)
+        refreshQuestions()
+    }
 
     const errorPopUpShown = ref(false)
-
-    function askQuestion(question : Question) {
-        questions.value.push(question)
-    }
 
     function showErrorPopUp() {
         errorPopUpShown.value = true
@@ -43,17 +44,6 @@
 
     function hideErrorPopUp() {
         errorPopUpShown.value = false
-    }
-
-    function toggleQuestion(index: number) {
-        filteredQuestions.value[index].open = !filteredQuestions.value[index].open 
-    }
-
-    async function deleteQuestion(index: number, componentIndex: number) {
-        await questionStore.removeQuestion(index)
-        questions.value.splice(componentIndex, 1)
-        //En accédant à la valeur du computed filteredQuestions, on rafraichit sa valeur
-        triggerRef(filteredQuestions)
     }
 
 </script>
@@ -66,35 +56,19 @@
     />
     <div class="d-flex container flex-column p-5">
         <div class="d-flex">
-            <!--HandComponent-->
             <HandImage />
-            <!--Hand/-->
-            <!--FormComponent-->
-            <QuestionForm @send="askQuestion" @showError="showErrorPopUp"/>
-            <!--Form/-->
+            <QuestionForm 
+                @send="askQuestion" 
+                @showError="showErrorPopUp"
+            />
         </div>
-        <!--Questions-->
-        <div class="p-5 list-group">
-            <ul>
-                <li v-for="(question, index) in filteredQuestions" :key="index" class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center p-2 rounded" :class="{'bg-dark-subtle': !question.super, 'bg-warning': question.super}">
-                        <button class="btn btn-danger btn-sm" id="deleteQuestion" @click="deleteQuestion(question.id, index)">
-                            Del
-                        </button>
-                        <h5>Question {{ index + 1 }}</h5>
-                        <button class="btn btn-primary btn-sm" id="toggleQuestion" @click="toggleQuestion(index)">
-                            {{ question.open ? '-' : '+' }}
-                        </button>
-                    </div>
-                    <div v-if="question.open" class="mt-3">
-                        <p id="content"><strong>Question:</strong> {{ question.content }}</p>
-                        <p id="priority"><strong>Priorité:</strong> {{ question.priority }}</p>
-                        <p id="category"><strong>Categorie:</strong> {{ question.category }}</p>
-                        <p id="isPrivate"><strong v-if="question.private">Privé</strong><strong v-else>Public</strong></p>
-                    </div>
-                </li>
-            </ul>
-        </div>
+        <button @click="refreshQuestions" class="btn btn-info m-4 mb-5">
+            Refresh
+        </button>
+        <StudentQuestions 
+            :questions="questions"
+            @delete="deleteQuestion"
+        />
     </div>
 </template>
 

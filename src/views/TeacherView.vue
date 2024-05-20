@@ -5,9 +5,9 @@
     import StudentColumn from '../components/teacher/StudentColumn.vue'
     import { useQuestionStore } from '@/stores/questionStore'
     import { useUserStore } from '@/stores/userStore'
-    import { onMounted, ref } from 'vue'
+    import { onMounted, ref, watchEffect } from 'vue'
     import { Question } from '@/interfaces/IQuestion'
-    import Student from '@/interfaces/IStudent'
+    import { Student } from '@/interfaces/IStudent'
 
     const questionStore = useQuestionStore()
     const userStore = useUserStore()
@@ -18,23 +18,26 @@
         router.push({ name: 'Profile' })
     }
 
-    const questions = ref<Array<Question>>([])
-    onMounted(async () => {
-        await questionStore.refreshQuestions()
-        questions.value = questionStore.questions
-    })
-    //TODO:
-    //Manque à tester si dynamique lorsqu'on ajoute/supprime à questionStore.questions
-    //Aussi vérifier si les props sont passées dynamiquement
+    const questions = ref<Question[]>([]);
+    async function refreshQuestions() {
+        await questionStore.refreshQuestions();
+        questions.value = questionStore.questions;
+    }
 
-    const students = ref<Array<Student>>([])
-    onMounted(async () => {
+    const students = ref<Student[]>([])
+    async function refreshStudents() {
         await userStore.refreshStudents()
         students.value = userStore.students
+    }
+
+    async function refresh() {
+        refreshQuestions()
+        refreshStudents()
+    }
+
+    watchEffect(() => {
+        refresh()
     })
-    //TODO:
-    //Manque à tester si dynamique lorsqu'on ajoute/supprime à userStore.students
-    //Aussi vérifier si les props sont passées dynamiquement
 
     function sendAmberAlert() {
         userStore.amberAlertShown = true
@@ -44,6 +47,9 @@
 
 <template>
     <div class="container bg-light d-flex flex-column">
+        <button @click="refresh" class="btn btn-info m-4 mb-5">
+            Refresh
+        </button>
         <div class="d-flex w-100">
             <QuestionColumn class="w-50" :questions="questions"/>
             <StudentColumn class="w-50" :students="students"/>

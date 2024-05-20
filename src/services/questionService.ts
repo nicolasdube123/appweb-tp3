@@ -82,16 +82,10 @@ async function deleteQuestion (questionId: string) {
     throw parseAxiosError(error)
   }
 }
-
-async function getLastQuestion() {
-  const question = await getQuestionById(id.toString())
-  return question
-}
   
 export const questionService = {
   getQuestions,
   getQuestionById,
   createQuestion,
-  deleteQuestion,
-  getLastQuestion
+  deleteQuestion
 }
