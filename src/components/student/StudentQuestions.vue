@@ -19,6 +19,7 @@
         return props.questions.filter(question => question.studentId === userId.value);
     })
     
+    // Le toggle est purement pour le point de vue du professeur, rien à modifier dans la database
     function toggleQuestion(index: number) {
         filteredQuestions.value[index].open = !filteredQuestions.value[index].open 
     }
@@ -44,7 +45,7 @@
                 <div v-if="question.open" class="mt-3">
                     <p id="content"><strong>Question:</strong> {{ question.content }}</p>
                     <p id="priority"><strong>Priorité:</strong> {{ question.priority }}</p>
-                    <p id="category"><strong>Categorie:</strong> {{ question.category }}</p>
+                    <p id="category"><strong>Catégorie:</strong> {{ question.category }}</p>
                     <p id="isPrivate"><strong v-if="question.private">Privé</strong><strong v-else>Public</strong></p>
                 </div>
             </li>

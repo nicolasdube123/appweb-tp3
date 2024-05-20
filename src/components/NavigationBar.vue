@@ -47,19 +47,6 @@
       checkRoleAndRedirect();
     }
   })
-
-  const userStore = useUserStore()
-  const amberAlertActive = ref(false)
-  watchEffect(() => {
-    amberAlertActive.value = userStore.amberAlertShown
-  })
-
-  // L'alerte Amber est cachée dans la barre de navigation afin de s'assurer de notifier tout le monde (sauf le professeur 
-  // lui-même, voir le v-if ci-dessous).
-  function closePopUp() {
-    userStore.amberAlertShown = false
-  }
-
 </script>
 
 <template>
@@ -68,7 +55,6 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
       <div class="navbar-nav mr-auto">
-        <!-- Le ":class={...}" veut dire si la route est égal à 'Home' alors "active" de bootstrap sera ajoutée à l'attribut "class". Ce qui aura comme effet de mettre en évidence l'option du menu. -->
         <RouterLink
           class="nav-link"
           :class="{ active: $route.name == 'Student' }"
@@ -114,8 +100,4 @@
     </div>
   </nav>
   </Suspense>
-  <PopUp v-if="userStore.amberAlertShown && currentRole != Role.TEACHER" 
-    @closePopUp="closePopUp"
-    :title="'ALERTE AMBER'"
-  />
 </template>

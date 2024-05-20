@@ -29,14 +29,14 @@
       "role": "student"
     }
   ],
-  "questions":[
+  "questions": [
     {
-      "id":1,
+      "id": 1,
       "studentId": "2",
-      "content": "Ça marche comment Vue?",
-      "super": true,
-      "priority": "P1",
-      "category": "Oui",
+      "content": "aaaaaaaaaaaaaaaa",
+      "super": false,
+      "priority": 1,
+      "category": "Matière",
       "private": false
     }
   ],

@@ -49,7 +49,7 @@ async function getQuestions(): Promise<Question[]> {
 async function createQuestion (questionDto: QuestionDto) {
   try {
     await getQuestionId()
-    await axiosAuth.post(API_URL, { 
+    const question = { 
       id: id,
       studentId: questionDto.studentId,
       content: questionDto.content,
@@ -57,8 +57,9 @@ async function createQuestion (questionDto: QuestionDto) {
       priority: questionDto.priority,
       category: questionDto.category,
       private: questionDto.private
-    }, {
-      //Pour retirer une quesiton
+    }
+    await axiosAuth.post(API_URL, question, {
+      //Pour retirer une question
       //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
       headers: {
         Authorization: "Bearer "+localStorage.getItem('token')
@@ -75,7 +76,7 @@ async function deleteQuestion (questionId: string) {
       //Pour retirer une quesiton
       //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
       headers: {
-        Authorization: "Bearer "+localStorage.getItem('token')
+        Authorization: "Bearer "+ localStorage.getItem('token')
       }
     })
   } catch (error) {

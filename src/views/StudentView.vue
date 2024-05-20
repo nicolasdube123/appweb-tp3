@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { computed, onMounted, ref, triggerRef, watchEffect } from 'vue'
+    import { ref, watchEffect } from 'vue'
     import PopUp from '@/components/PopUp.vue'
     import { Role, getRole } from '@/scripts/verifyRole'
     import router from '@/router'
@@ -8,7 +8,7 @@
     import QuestionForm from '@/components/student/QuestionForm.vue'
     import { useQuestionStore } from '@/stores/questionStore'
     import StudentQuestions from '@/components/student/StudentQuestions.vue'
-import { useUserStore } from '@/stores/userStore'
+    import { useUserStore } from '@/stores/userStore'
 
     const role = await getRole();
     if (role != Role.STUDENT) {
@@ -54,7 +54,6 @@ import { useUserStore } from '@/stores/userStore'
     function hideErrorPopUp() {
         errorPopUpShown.value = false
     }
-
 </script>
 
 <template>
@@ -70,18 +69,12 @@ import { useUserStore } from '@/stores/userStore'
     <div class="d-flex container flex-column p-5">
         <div class="d-flex">
             <HandImage />
-            <QuestionForm 
-                @send="askQuestion" 
-                @showError="showErrorPopUp"
-            />
+            <QuestionForm @send="askQuestion" @showError="showErrorPopUp"/>
         </div>
         <button @click="refreshQuestions" class="btn btn-info m-4 mb-5">
             Refresh
         </button>
-        <StudentQuestions 
-            :questions="questions"
-            @delete="deleteQuestion"
-        />
+        <StudentQuestions :questions="questions" @delete="deleteQuestion"/>
     </div>
 </template>
 

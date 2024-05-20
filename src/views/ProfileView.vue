@@ -1,39 +1,37 @@
 <script setup lang="ts">
-import { onMounted, computed, ref } from 'vue'
-import { useUserStore } from '../stores/userStore'
-import { Role, getRole } from '@/scripts/verifyRole'
+  import { onMounted, computed, ref } from 'vue'
+  import { useUserStore } from '../stores/userStore'
+  import { Role, getRole } from '@/scripts/verifyRole'
 
-const userStore = useUserStore()
+  const userStore = useUserStore()
 
-const name = computed(() => userStore.name)
-const email = computed(() => userStore.email)
+  const name = computed(() => userStore.name)
+  const email = computed(() => userStore.email)
 
-const formName = ref(name.value)
-const formPassword = ref('')
+  const formName = ref('')
+  const formPassword = ref('')
 
-let role= await computed(() => getRole()).value
-if (role == undefined) {
-  role = Role.STUDENT
-}
-const onError = computed(() => userStore.onError)
+  let role = await computed(() => getRole()).value
 
-onMounted(async () => {
-  try {
-    await userStore.getProfile()
-    if (onError.value) {
-      // Utilisation d'une boîte de dialogue au lieu de 'confirm'
-      confirm("Une erreur s'est produite lors de la récupération du profil de l'utilisateur.")
+  const onError = computed(() => userStore.onError)
+
+  onMounted(async () => {
+    try {
+      await userStore.getProfile()
+      if (onError.value) {
+        // Utilisation d'une boîte de dialogue au lieu de 'confirm'
+        confirm("Une erreur s'est produite lors de la récupération du profil de l'utilisateur.")
+      }
+    } catch (error) {
+      confirm("Erreur critique lors de l'accès au store.")
     }
-  } catch (error) {
-    confirm("Erreur critique lors de l'accès au store.")
-  }
-})
+  })
 
-async function updateUser(name: string, password: string) {
-  await userStore.updateUser(name, password)
-  formName.value = ''
-  formPassword.value = ''
-}
+  async function updateUser(name: string, password: string) {
+    await userStore.updateUser(name, password)
+    formName.value = ''
+    formPassword.value = ''
+  }
 </script>
 
 <template>
