@@ -16,7 +16,7 @@
 
     // On compare le userId à l'attribut studentId des questions pour seulement afficher les questions de l'élève
     const filteredQuestions = computed(() => {
-        return props.questions.filter(question => question.studentId === userId.value);
+        return props.questions.filter(question => question.studentId === userId.value || !question.private);
     })
     
     // Le toggle est purement pour le point de vue du professeur, rien à modifier dans la database

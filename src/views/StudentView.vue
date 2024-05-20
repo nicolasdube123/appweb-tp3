@@ -10,6 +10,11 @@
     import StudentQuestions from '@/components/student/StudentQuestions.vue'
     import { useUserStore } from '@/stores/userStore'
 
+    // ---------------------------------------------------------------------------------------------- //
+    //  Pour répondre à la fonctionnalité 'Lever ma main' et 'Baisser ma main', on prend en compte    //
+    //    que l'élève lève sa main en posant une question et la baisse en supprimant sa question.     //
+    // ---------------------------------------------------------------------------------------------- //
+
     const role = await getRole();
     if (role != Role.STUDENT) {
         router.push({ name: 'Profile' })
