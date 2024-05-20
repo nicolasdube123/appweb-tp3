@@ -61,13 +61,12 @@ async function createStudent (name: string, email: string, password: string) {
   id++
 }
 
-async function updatePassword (userId: string, name: string, newPassword: string) {
+async function updateUser (userId: string, name: string, newPassword: string) {
   try {
     let user: User = await getUserById(userId)
     user.name = name
     user.password = newPassword
-    
-    await axiosAuth.put(API_URL + "/" + userId, { user }, {
+    await axiosAuth.put(API_URL + "/" + userId, user, {
       //Pour retirer une quesiton
       //https://stackoverflow.com/questions/59327261/how-to-axios-delete-with-header-when-im-getting-401-all-the-time
       headers: {
@@ -98,6 +97,6 @@ export const userService = {
   getStudents,
   getRole,
   createStudent,
-  updatePassword,
+  updateUser,
   deleteUser
 }

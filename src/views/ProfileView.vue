@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { useUserStore } from '../stores/userStore'
-import Profile from '@/components/Profile.vue'
 import { Role, getRole } from '@/scripts/verifyRole'
 
 const userStore = useUserStore()
 
 const name = computed(() => userStore.name)
 const email = computed(() => userStore.email)
+
+const formName = ref(name.value)
+const formPassword = ref('')
+
 let role= await computed(() => getRole()).value
 if (role == undefined) {
   role = Role.STUDENT
@@ -28,11 +31,26 @@ onMounted(async () => {
 
 async function updateUser(name: string, password: string) {
   await userStore.updateUser(name, password)
+  formName.value = ''
+  formPassword.value = ''
 }
 </script>
 
 <template>
-  <Profile :name="name" :email="email" :role="role" @updateUser="updateUser" />
+  <div class="container m-4 d-flex flex-column">
+    <h1>Profile</h1>
+    <div class="container m-4">
+      <h3>Informations:</h3>
+      <div>Nom: {{ name }}</div>
+      <div>Courriel: {{ email }}</div>
+      <div class="pt-4">
+        <h3>Changer le mot de passe:</h3>
+        <input v-if="role == Role.TEACHER" type="text" name="newName" id="new-name" v-model="formName" class="form-control w-25" placeholder="Nouveau nom">
+        <input type="password" name="newPassword" id="new-password" v-model="formPassword" class="form-control w-25" placeholder="Nouveau mot de passe">
+        <button class="btn btn-primary w-25 mt-2" @click="updateUser(formName, formPassword)">Envoyer</button>
+    </div>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

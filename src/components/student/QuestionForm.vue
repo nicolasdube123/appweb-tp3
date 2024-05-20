@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { computed, ref, defineEmits} from 'vue';
+    import { computed, ref} from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
     import { useSuperHandStore } from "@/stores/superHandStore"
     import { useAuthStore } from '@/stores/authStore';

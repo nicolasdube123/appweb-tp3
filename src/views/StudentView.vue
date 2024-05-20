@@ -8,6 +8,7 @@
     import QuestionForm from '@/components/student/QuestionForm.vue'
     import { useQuestionStore } from '@/stores/questionStore'
     import StudentQuestions from '@/components/student/StudentQuestions.vue'
+import { useUserStore } from '@/stores/userStore'
 
     const role = await getRole();
     if (role != Role.STUDENT) {
@@ -22,8 +23,16 @@
         questions.value = questionStore.questions;
     }
 
+    const userStore = useUserStore()
+    const amberAlertActive = ref(false)
+
+    function closeAmberAlert() {
+        userStore.amberAlertShown = false
+    }
+
     watchEffect(() => {
-        refreshQuestions();
+        refreshQuestions()
+        amberAlertActive.value = userStore.amberAlertShown
     })
 
     async function askQuestion(userId: string, content: string, superHand: boolean, priority: string, category: string, locked: boolean) {
@@ -49,6 +58,10 @@
 </script>
 
 <template>
+    <PopUp v-if="userStore.amberAlertShown" 
+        @closePopUp="closeAmberAlert"
+        :title="'ALERTE AMBER'"
+    />
     <PopUp v-if="errorPopUpShown" 
         @closePopUp="hideErrorPopUp"
         :title="'Erreur'"

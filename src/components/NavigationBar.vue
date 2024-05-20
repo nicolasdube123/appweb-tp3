@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onMounted, ref, watch } from 'vue'
+  import { computed, onMounted, ref, watch, watchEffect } from 'vue'
   import { useAuthStore } from '../stores/authStore'
   import { useUserStore } from '../stores/userStore'
   import { useRouter } from 'vue-router'
@@ -48,9 +48,14 @@
     }
   })
 
+  const userStore = useUserStore()
+  const amberAlertActive = ref(false)
+  watchEffect(() => {
+    amberAlertActive.value = userStore.amberAlertShown
+  })
+
   // L'alerte Amber est cachée dans la barre de navigation afin de s'assurer de notifier tout le monde (sauf le professeur 
   // lui-même, voir le v-if ci-dessous).
-  const userStore = useUserStore()
   function closePopUp() {
     userStore.amberAlertShown = false
   }
