@@ -7,23 +7,26 @@
     const props = defineProps({
         students : {
             type: Object as () => Array<Student>,
-                required: true
-            }
-        })
+            required: true
+        }
+    })
+
     const userStore = useUserStore()
 
     const errorPopUpShown = ref(false)
 
+    // On modifie seulement le props. Par défaut, les fenêtres d'élèves sont toujours fermées
     function toggleStudent(index: number) {
-        // On modifie seulement le props. Par défaut, les fenêtres d'élèves sont toujours fermées
         props.students[index].open = !props.students[index].open;
     }
 
-    function deleteStudent(index: number) {
-        props.students.splice(index, 1)
-        userStore.removeStudent(index)
+    // Voir deleteQuestion de QuestionColumn.vue (même principe)
+    function deleteStudent(studentId: number, componentIndex: number) {
+        props.students.splice(componentIndex, 1)
+        userStore.removeStudent(studentId)
     }
 
+    // Champs du formulaire
     let studentName = ref('')
     let studentEmail = ref('')
     let studentPassword = ref('')
@@ -86,7 +89,7 @@
         </li>
         <li v-for="(student, index) in props.students" :key="index" class="list-group-item">
             <div class="d-flex justify-content-between align-items-center bg-dark-subtle p-2 rounded">
-                <button class="btn btn-danger btn-sm" @click="deleteStudent(parseInt(student.id))" id="delete">
+                <button class="btn btn-danger btn-sm" @click="deleteStudent(parseInt(student.id), index)" id="delete">
                     Del
                 </button>
                 <h5 id="student-name">{{ student.name }}</h5>

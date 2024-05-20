@@ -11,6 +11,7 @@ export const useUserStore = defineStore('userStoreId', () => {
   const onError = ref(false)
   let amberAlertShown = ref(false)
 
+  const authStore = useAuthStore()
   const students = ref<Array<Student>>([])
 
   function _initializeProfile(profile: { email: string; name: string }) {
@@ -22,7 +23,6 @@ export const useUserStore = defineStore('userStoreId', () => {
   async function getProfile() {
     try {
       onError.value = false
-      const authStore = useAuthStore()
       const userId = authStore.getUserId // Assuming getUserId is a computed or a ref inside authStore
       const profile = await userService.getUserById(userId)
       _initializeProfile(profile)
@@ -48,9 +48,8 @@ export const useUserStore = defineStore('userStoreId', () => {
   }
 
   async function updateUser(name: string, password: string) {
-    const authStore = useAuthStore()
     const id = authStore.getUserId
-    await userService.updatePassword(id, name, password)
+    await userService.updateUser(id, name, password)
   }
 
   async function removeStudent(id: number) {

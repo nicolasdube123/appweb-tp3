@@ -1,5 +1,5 @@
 <script setup lang="ts">
-    import { computed, onMounted, ref, triggerRef, watchEffect } from 'vue'
+    import { ref, watchEffect } from 'vue'
     import PopUp from '@/components/PopUp.vue'
     import { Role, getRole } from '@/scripts/verifyRole'
     import router from '@/router'
@@ -8,6 +8,12 @@
     import QuestionForm from '@/components/student/QuestionForm.vue'
     import { useQuestionStore } from '@/stores/questionStore'
     import StudentQuestions from '@/components/student/StudentQuestions.vue'
+    import { useUserStore } from '@/stores/userStore'
+
+    // ---------------------------------------------------------------------------------------------- //
+    //  Pour répondre à la fonctionnalité 'Lever ma main' et 'Baisser ma main', on prend en compte    //
+    //    que l'élève lève sa main en posant une question et la baisse en supprimant sa question.     //
+    // ---------------------------------------------------------------------------------------------- //
 
     const role = await getRole();
     if (role != Role.STUDENT) {
@@ -22,8 +28,16 @@
         questions.value = questionStore.questions;
     }
 
+    const userStore = useUserStore()
+    const amberAlertActive = ref(false)
+
+    function closeAmberAlert() {
+        userStore.amberAlertShown = false
+    }
+
     watchEffect(() => {
-        refreshQuestions();
+        refreshQuestions()
+        amberAlertActive.value = userStore.amberAlertShown
     })
 
     async function askQuestion(userId: string, content: string, superHand: boolean, priority: string, category: string, locked: boolean) {
@@ -45,10 +59,13 @@
     function hideErrorPopUp() {
         errorPopUpShown.value = false
     }
-
 </script>
 
 <template>
+    <PopUp v-if="userStore.amberAlertShown" 
+        @closePopUp="closeAmberAlert"
+        :title="'ALERTE AMBER'"
+    />
     <PopUp v-if="errorPopUpShown" 
         @closePopUp="hideErrorPopUp"
         :title="'Erreur'"
@@ -57,18 +74,12 @@
     <div class="d-flex container flex-column p-5">
         <div class="d-flex">
             <HandImage />
-            <QuestionForm 
-                @send="askQuestion" 
-                @showError="showErrorPopUp"
-            />
+            <QuestionForm @send="askQuestion" @showError="showErrorPopUp"/>
         </div>
         <button @click="refreshQuestions" class="btn btn-info m-4 mb-5">
             Refresh
         </button>
-        <StudentQuestions 
-            :questions="questions"
-            @delete="deleteQuestion"
-        />
+        <StudentQuestions :questions="questions" @delete="deleteQuestion"/>
     </div>
 </template>
 

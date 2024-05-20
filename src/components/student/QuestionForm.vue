@@ -1,16 +1,15 @@
 <script setup lang="ts">
-    import { computed, ref, defineEmits} from 'vue';
+    import { computed, ref} from 'vue';
     import { useQuestionStore } from '@/stores/questionStore'
     import { useSuperHandStore } from "@/stores/superHandStore"
     import { useAuthStore } from '@/stores/authStore';
 
     const emit = defineEmits<{
-        send: [userId:string, content: string, superHand: boolean, priority: string, category: string, locked: boolean];
-        showError: [];
+        send: [userId:string, content: string, superHand: boolean, priority: string, category: string, locked: boolean]
+        showError: []
     }>()
 
     const questionStore = useQuestionStore()
-    
     const categories = ref<String[]>(questionStore.categories)
     const priorities = [
         { value: 1, label: 'P1' },
@@ -20,6 +19,7 @@
         { value: 5, label: 'P5' }
     ]
 
+    // Données du formulaire
     const authStore = useAuthStore()
     const userId = computed(() => authStore.getUserId)
     const superHandStore = useSuperHandStore()

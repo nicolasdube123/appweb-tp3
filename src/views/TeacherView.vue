@@ -5,7 +5,7 @@
     import StudentColumn from '../components/teacher/StudentColumn.vue'
     import { useQuestionStore } from '@/stores/questionStore'
     import { useUserStore } from '@/stores/userStore'
-    import { onMounted, ref, watchEffect } from 'vue'
+    import { ref, watchEffect } from 'vue'
     import { Question } from '@/interfaces/IQuestion'
     import { Student } from '@/interfaces/IStudent'
 
@@ -51,7 +51,7 @@
             Refresh
         </button>
         <div class="d-flex w-100">
-            <QuestionColumn class="w-50" :questions="questions"/>
+            <QuestionColumn class="w-50" :questions="questions" @refresh="refresh"/>
             <StudentColumn class="w-50" :students="students"/>
         </div>
         <button @click="sendAmberAlert" class="btn btn-danger m-4 mb-5">
